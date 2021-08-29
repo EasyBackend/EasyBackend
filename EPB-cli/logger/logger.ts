@@ -21,6 +21,7 @@ const colors = {
   http: 'magenta',
   debug: 'white',
 };
+
 winston.addColors(colors);
 
 const format = winston.format.combine(
