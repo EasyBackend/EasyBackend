@@ -24,7 +24,12 @@ const parseArgumentsIntoOptions = (rawArgs: string[]) => {
   };
 };
 
-const promptForMissingOptions = async (options: IOptions) => {
+const promptForMissingOptions = async (options: {
+  git: any;
+  template: any;
+  runInstall: boolean;
+  skipPrompts?: any;
+}) => {
   const defaultTemplate = "Typescript";
   if (options.skipPrompts) {
     return {
@@ -44,6 +49,13 @@ const promptForMissingOptions = async (options: IOptions) => {
       type: "input",
       name: "env",
       message: "Database URI?",
+    },
+    {
+      type: "list",
+      name: "restGQL",
+      message: "Would you like to use GraphQL or build a Restful API?",
+      choices: ["Restful API", "GraphQL"],
+      default: "Restful API",
     },
   ];
   if (!options.template) {
@@ -70,6 +82,7 @@ const promptForMissingOptions = async (options: IOptions) => {
     git: options.git || answers.git,
     database: answers.database,
     env: answers.env,
+    restGQL: answers.restGQL,
   };
 };
 
