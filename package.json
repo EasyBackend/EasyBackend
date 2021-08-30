@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf ./src/build && tsc",
     "lint": "eslint . --ext .js,.ts --fix",
-    "commit": "npx cz",
+    "commit": "npx git-cz",
     "test:coverage": "jest --coverage",
     "release": "standard-version"
   },
