@@ -56,26 +56,26 @@ export const createProject = async (options: IMainOptions) => {
       title: "Copy project files",
       task: () => copyTemplateFiles(options),
     },
-    {
-      title: "Set up database",
-      task: () => databaseSetup(options),
-    },
-    {
-      title: "Initialize git",
-      task: () => initGit(options),
-      enabled: () => options.git || false,
-    },
-    {
-      title: "Install dependencies",
-      task: () =>
-        projectInstall({
-          cwd: options.targetDirectory,
-        }),
-      skip: () =>
-        !options.runInstall
-          ? "Pass --install to automatically install dependencies."
-          : undefined,
-    },
+    // {
+    //   title: "Set up database",
+    //   task: () => databaseSetup(options),
+    // },
+    // {
+    //   title: "Initialize git",
+    //   task: () => initGit(options),
+    //   enabled: () => options.git || false,
+    // },
+    // {
+    //   title: "Install dependencies",
+    //   task: () =>
+    //     projectInstall({
+    //       cwd: options.targetDirectory,
+    //     }),
+    //   skip: () =>
+    //     !options.runInstall
+    //       ? "Pass --install to automatically install dependencies."
+    //       : undefined,
+    // },
   ]);
 
   await tasks.run();

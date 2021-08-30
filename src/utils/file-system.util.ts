@@ -9,14 +9,16 @@ const copy = promisify(ncp);
 
 const detemineFilesToCopy = (options: IMainOptions) => {
   const { level, userauth, errorlogging, socket } = options;
+  if (!level) return;
   let copyOptions: string[] = [];
-  if (level?.includes("Full")) {
+
+  if (level.includes("Full")) {
     copyOptions.push("full");
   }
-  if (level?.includes("Medium")) {
+  if (level.includes("Medium")) {
     copyOptions.push("medium");
   }
-  if (level?.includes("Basic")) {
+  if (level.includes("Basic")) {
     copyOptions.push("basics");
   }
   if (userauth) {
@@ -34,7 +36,8 @@ const detemineFilesToCopy = (options: IMainOptions) => {
 export const copyTemplateFiles = async (options: IMainOptions) => {
   const { templateDirectory } = options;
   const copyOptions = detemineFilesToCopy(options);
-  await Promise.all(
+  if (!copyOptions) return;
+  Promise.all(
     copyOptions.map((option: string) => {
       if (!templateDirectory) return;
       copy(
