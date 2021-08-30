@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import arg from "arg";
 import inquirer from "inquirer";
-import { IQuestion, IOptions } from "./types";
+import { IQuestion } from "./types";
 import { createProject } from "./main";
 
 const parseArgumentsIntoOptions = (rawArgs: string[]) => {
@@ -30,6 +30,7 @@ const promptForMissingOptions = async (options: {
   runInstall: boolean;
   skipPrompts?: any;
 }) => {
+  console.log(process.cwd());
   const defaultTemplate = "Typescript";
   if (options.skipPrompts) {
     return {

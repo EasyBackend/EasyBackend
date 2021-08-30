@@ -1,18 +1,15 @@
 import fs from "fs";
 import ncp from "ncp";
 import path from "path";
+import execa from "execa";
 import { promisify } from "util";
-import { install } from "pkg-install";
-import { IMainOptions } from "./types";
-import Logger from "./logger/logger";
+
+import { writeToEnv } from ".";
+import { IMainOptions } from "../types";
+import Logger from "../logger/logger";
 
 const copy = promisify(ncp);
 const write = promisify(fs.writeFile);
-
-const writeToEnv = async (options: IMainOptions) => {
-  if (!options.env || typeof options.env !== "string") return;
-  await write(`${options.targetDirectory}/.env`, `MONGO_URI="${options.env}"`);
-};
 
 const copyDatabaseFiles = async (options: IMainOptions) => {
   try {
@@ -31,7 +28,7 @@ const copyDatabaseFiles = async (options: IMainOptions) => {
       new URL(currentFileUrl).pathname,
       "./templates/dbtemplates",
       `${options.database?.toLowerCase()}${`\\${
-        options.templateDirectory.split("templates")[1]
+        options.templateDirectory?.split("templates")[1]
       }`}`
     )
     .slice(3)
@@ -42,11 +39,20 @@ const copyDatabaseFiles = async (options: IMainOptions) => {
     clobber: false,
   });
 };
-
 export const databaseSetup = async (options: IMainOptions) => {
   await copyDatabaseFiles(options);
   //   options.template === "typescript"
   //     ? await install(tsMongo, { cwd: options.targetDirectory })
   //     : await install(jsMongo, { cwd: options.targetDirectory });
   return await writeToEnv(options);
+};
+
+export const initGit = async (options: IMainOptions) => {
+  const result = await execa("git", ["init"], {
+    cwd: options.targetDirectory,
+  });
+  if (result.failed) {
+    return Promise.reject(Logger.error("Failed to initialize Git"));
+  }
+  return;
 };

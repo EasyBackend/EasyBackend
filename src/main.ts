@@ -1,36 +1,18 @@
 import chalk from "chalk";
 import fs from "fs";
-import ncp from "ncp";
-import path from "path";
-import execa from "execa";
-import Listr from "listr";
-import { projectInstall } from "pkg-install";
 import { promisify } from "util";
+
+import path from "path";
+import { projectInstall } from "pkg-install";
+import Listr from "listr";
+
 import Logger from "./logger/logger";
 import { IMainOptions } from "./types";
-import { databaseSetup } from "./setup-util";
-import * as utils from "./utils";
+import { databaseSetup, initGit } from "./utils/setup-util";
+import { copyTemplateFiles, createError } from "./utils";
 
 const access = promisify(fs.access);
-const copy = promisify(ncp);
 
-const copyTemplateFiles = async (options: IMainOptions) => {
-  const { templateDirectory, targetDirectory } = options;
-  if (!templateDirectory) return;
-  Logger.error(targetDirectory);
-  return copy(templateDirectory, targetDirectory || process.cwd(), {
-    clobber: false,
-  });
-};
-const initGit = async (options: IMainOptions) => {
-  const result = await execa("git", ["init"], {
-    cwd: options.targetDirectory,
-  });
-  if (result.failed) {
-    return Promise.reject(Logger.error("Failed to initialize Git"));
-  }
-  return;
-};
 export const createProject = async (options: IMainOptions) => {
   Logger.error(process.cwd());
   const { targetDirectory, template, restGQL } = options;
@@ -41,7 +23,7 @@ export const createProject = async (options: IMainOptions) => {
   };
   const currentFileUrl = import.meta.url;
   if (!template) {
-    utils.createError(`${chalk.red.bold("ERROR")}, Invalid template name`);
+    createError(`${chalk.red.bold("ERROR")}, Invalid template name`);
     return;
   }
   const templateDir = path
