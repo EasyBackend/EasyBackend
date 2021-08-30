@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+require = require("esm")(module /*, options */);
+require("../build/cli.js").cli(process.argv);
+// "@korenezri/easy-backend": "bin/eb-create-server",
+// "eb-create-server": "bin/eb-create-server"

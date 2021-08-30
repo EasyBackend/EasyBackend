@@ -1,0 +1,7 @@
+example
+assets
+__tests__
+.husky
+.github.node_modules
+CHANGELOG.md
+LICENSE.txt
