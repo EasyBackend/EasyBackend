@@ -1,17 +1,11 @@
 import { IQuestion } from "../types";
-export const allFilesToCopy = [
-  "basics",
-  "commitlint",
-  "eslint",
-  "husky",
-  "logger",
-  "workflows",
-  "CHANGELOG.md",
-];
+// TODO: add workflow to full version
+// TODO: add changelog to full version
+
 const serverLevelChoices = [
   "Full: includes eslint, husky, commitlint, changelog, logger, and github workflows",
   "Medium: includes husky and logger",
-  "Light: includes only a logger",
+  "Basic: includes only a logger",
   //   "Custom",
 ];
 
@@ -19,11 +13,9 @@ export const restOrGql = {
   rest: {
     language: {
       typescript: {
-        filesToCopy: allFilesToCopy,
         dependencies: [],
       },
       javascript: {
-        filesToCopy: allFilesToCopy,
         dependencies: [],
       },
     },
@@ -31,11 +23,9 @@ export const restOrGql = {
   gql: {
     language: {
       typescript: {
-        filesToCopy: allFilesToCopy,
         dependencies: [],
       },
       javascript: {
-        filesToCopy: allFilesToCopy,
         dependencies: [],
       },
     },
@@ -70,4 +60,22 @@ export const questions: IQuestion[] = [
     choices: serverLevelChoices,
     default: "Full",
   },
+  // {
+  //   type: "confirm",
+  //   name: "userauth",
+  //   message: "Initialize with basic user-auth?",
+  //   default: false,
+  // },
+  // {
+  //   type: "confirm",
+  //   name: "errorlogging",
+  //   message: "Initialize with basic error logging?",
+  //   default: false,
+  // },
+  // {
+  //   type: "confirm",
+  //   name: "socket",
+  //   message: "Initialize with socket.io?",
+  //   default: false,
+  // },
 ];

@@ -9,4 +9,7 @@ export interface IMainOptions {
   env?: string;
   restGQL?: string;
   level?: string;
+  userauth?: boolean;
+  errorlogging?: boolean;
+  socket?: boolean;
 }
