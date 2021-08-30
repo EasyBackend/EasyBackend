@@ -8,4 +8,5 @@ export interface IMainOptions {
   database?: string;
   env?: string;
   restGQL?: string;
+  level?: string;
 }

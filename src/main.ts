@@ -14,22 +14,26 @@ import { copyTemplateFiles, createError } from "./utils";
 const access = promisify(fs.access);
 
 export const createProject = async (options: IMainOptions) => {
-  Logger.error(process.cwd());
+  // creates project
   const { targetDirectory, template, restGQL } = options;
-  const restfulOrGQL = restGQL === "Restful API" ? "restful" : "gql";
+
+  const restfulOrGQL = restGQL === "Restful API" ? "restful" : "gql"; // restful or graph ql
   options = {
     ...options,
     targetDirectory: targetDirectory || process.cwd(),
   };
-  const currentFileUrl = import.meta.url;
+
+  const currentFileUrl = import.meta.url; // current file url helps us get the template's directory path
+
   if (!template) {
-    createError(`${chalk.red.bold("ERROR")}, Invalid template name`);
+    createError(`${chalk.red.bold("ERROR")}, Invalid template name`); // no template no money
     return;
   }
+
   const templateDir = path
     .resolve(
       new URL(currentFileUrl).pathname,
-      `./templates/${restfulOrGQL}`,
+      `./templates/${restfulOrGQL}`, // pick templates from either gql folder or restfulAPI folder.
       template.toLowerCase()
     )
     .slice(3)
@@ -39,6 +43,7 @@ export const createProject = async (options: IMainOptions) => {
   try {
     await access(templateDir, fs.constants.R_OK);
   } catch ({ message }) {
+    // makes sure folder is there
     Logger.error(
       `${chalk.red.bold("ERROR")}, Invalid template name, ${message}`
     );
@@ -46,6 +51,7 @@ export const createProject = async (options: IMainOptions) => {
   }
 
   const tasks = new Listr([
+    // starts the process of creating the server
     {
       title: "Copy project files",
       task: () => copyTemplateFiles(options),

@@ -3,21 +3,37 @@ import fs from "fs";
 import { promisify } from "util";
 
 import { IMainOptions } from "../types";
-import Logger from "../logger/logger";
+import { allFilesToCopy } from "../utils";
 
 const write = promisify(fs.writeFile);
 const copy = promisify(ncp);
 
 export const copyTemplateFiles = async (options: IMainOptions) => {
-  const { templateDirectory, targetDirectory } = options;
-  if (!templateDirectory) return;
-  Logger.error(targetDirectory);
-  return copy(
-    templateDirectory,
-    "C:/Users/Koren/Documents/EasyBackend/example",
-    {
-      clobber: false,
-    }
+  let { templateDirectory, level, restGQL } = options;
+  if (!restGQL) restGQL = "rest";
+
+  let copyOptions: string[] = [];
+  if (level?.includes("Full")) {
+    copyOptions = allFilesToCopy;
+  }
+  if (level?.includes("Medium")) {
+    copyOptions = ["husky", "logger"];
+  }
+  if (level?.includes("Light")) {
+    copyOptions = ["logger"];
+  }
+
+  await Promise.all(
+    copyOptions.map((option: string) => {
+      if (!templateDirectory) return;
+      copy(
+        `${templateDirectory}/${option}`,
+        "C:/Users/Koren/Documents/EasyBackend/example", // copies the template into the relevant location without overwriting anything
+        {
+          clobber: false,
+        }
+      );
+    })
   );
 };
 

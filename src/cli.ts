@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import arg from "arg";
 import inquirer from "inquirer";
-import { IQuestion } from "./types";
 import { createProject } from "./main";
+import { questions } from "./utils";
 
 const parseArgumentsIntoOptions = (rawArgs: string[]) => {
   const args = arg(
@@ -30,7 +30,6 @@ const promptForMissingOptions = async (options: {
   runInstall: boolean;
   skipPrompts?: any;
 }) => {
-  console.log(process.cwd());
   const defaultTemplate = "Typescript";
   if (options.skipPrompts) {
     return {
@@ -38,27 +37,6 @@ const promptForMissingOptions = async (options: {
       template: options.template || defaultTemplate,
     };
   }
-  const questions: IQuestion[] = [
-    {
-      type: "list",
-      name: "database",
-      message: "Please choose a database to work with",
-      choices: ["MongoDB"],
-      default: "MongoDB",
-    },
-    {
-      type: "input",
-      name: "env",
-      message: "Database URI?",
-    },
-    {
-      type: "list",
-      name: "restGQL",
-      message: "Would you like to use GraphQL or build a Restful API?",
-      choices: ["Restful API", "GraphQL"],
-      default: "Restful API",
-    },
-  ];
   if (!options.template) {
     questions.push({
       type: "list",
