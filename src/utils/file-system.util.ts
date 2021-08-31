@@ -9,16 +9,15 @@ const copy = promisify(ncp);
 
 const detemineFilesToCopy = (options: IMainOptions) => {
   const { level, userauth, errorlogging, socket } = options;
-  if (!level) return;
-  let copyOptions: string[] = [];
+  const copyOptions: string[] = [];
 
-  if (level.includes("Full")) {
+  if (level?.includes("Full")) {
     copyOptions.push("full");
   }
-  if (level.includes("Medium")) {
+  if (level?.includes("Medium")) {
     copyOptions.push("medium");
   }
-  if (level.includes("Basic")) {
+  if (level?.includes("Basic")) {
     copyOptions.push("basics");
   }
   if (userauth) {
@@ -34,24 +33,26 @@ const detemineFilesToCopy = (options: IMainOptions) => {
 };
 
 export const copyTemplateFiles = async (options: IMainOptions) => {
-  const { templateDirectory } = options;
+  const { templateDirectory, targetDirectory } = options;
+  console.log("LALALA:", targetDirectory);
   const copyOptions = detemineFilesToCopy(options);
-  if (!copyOptions) return;
+  console.log(targetDirectory + "\\example");
   Promise.all(
     copyOptions.map((option: string) => {
-      if (!templateDirectory) return;
+      if (!templateDirectory || !targetDirectory) return;
       copy(
         `${templateDirectory}/${option}`,
-        "C:/Users/Koren/Documents/EasyBackend/example", // copies the template into the relevant location without overwriting anything
+        `${targetDirectory}\\example`, // copies the template into the relevant location without overwriting anything
         {
           clobber: false,
         }
       );
     })
   );
+  if (!templateDirectory || !targetDirectory) return;
   copy(
     `${templateDirectory}/basics`,
-    "C:/Users/Koren/Documents/EasyBackend/example", // copies the template into the relevant location without overwriting anything
+    targetDirectory, // copies the template into the relevant location without overwriting anything
     {
       clobber: false,
     }

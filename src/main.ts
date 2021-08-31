@@ -38,6 +38,7 @@ export const createProject = async (options: IMainOptions) => {
     )
     .slice(3)
     .replace("main.js\\", "");
+
   options.templateDirectory = templateDir;
 
   try {
