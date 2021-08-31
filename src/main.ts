@@ -15,14 +15,8 @@ const access = promisify(fs.access);
 
 export const createProject = async (options: IMainOptions) => {
   // creates project
-  const { targetDirectory, template, restGQL } = options;
-
+  const { template, restGQL } = options;
   const restfulOrGQL = restGQL === "Restful API" ? "restful" : "gql"; // restful or graph ql
-  options = {
-    ...options,
-    targetDirectory: targetDirectory || process.cwd(),
-  };
-
   const currentFileUrl = import.meta.url; // current file url helps us get the template's directory path
 
   if (!template) {
@@ -38,7 +32,13 @@ export const createProject = async (options: IMainOptions) => {
     )
     .slice(3)
     .replace("main.js\\", "");
-  options.templateDirectory = templateDir;
+  const targetDirectory = process.cwd();
+
+  options = {
+    ...options,
+    targetDirectory,
+    templateDirectory: templateDir,
+  };
 
   try {
     await access(templateDir, fs.constants.R_OK);
