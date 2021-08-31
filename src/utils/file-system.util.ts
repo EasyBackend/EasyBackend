@@ -34,24 +34,23 @@ const detemineFilesToCopy = (options: IMainOptions) => {
 
 export const copyTemplateFiles = async (options: IMainOptions) => {
   const { templateDirectory, targetDirectory } = options;
-  console.log("Target:", targetDirectory);
   const copyOptions = detemineFilesToCopy(options);
+  if (!templateDirectory || !targetDirectory) return;
+
   Promise.all(
     copyOptions.map((option: string) => {
-      if (!templateDirectory || !targetDirectory) return;
       copy(
         `${templateDirectory}/${option}`,
-        process.cwd(), // copies the template into the relevant location without overwriting anything
+        targetDirectory, // copies the template into the relevant location without overwriting anything
         {
           clobber: false,
         }
       );
     })
   );
-  if (!templateDirectory || !targetDirectory) return;
   copy(
     `${templateDirectory}/basics`,
-    process.cwd(), // copies the template into the relevant location without overwriting anything
+    targetDirectory, // copies the template into the relevant location without overwriting anything
     {
       clobber: false,
     }
@@ -60,5 +59,5 @@ export const copyTemplateFiles = async (options: IMainOptions) => {
 
 export const writeToEnv = async (options: IMainOptions) => {
   if (!options.env || typeof options.env !== "string") return;
-  await write(`${options.targetDirectory}/.env`, `MONGO_URI="${options.env}"`);
+  await write(`${process.cwd()}/.env`, `MONGO_URI="${options.env}"`);
 };
