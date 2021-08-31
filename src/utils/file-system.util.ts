@@ -9,16 +9,15 @@ const copy = promisify(ncp);
 
 const detemineFilesToCopy = (options: IMainOptions) => {
   const { level, userauth, errorlogging, socket } = options;
-  if (!level) return;
-  let copyOptions: string[] = [];
+  const copyOptions: string[] = [];
 
-  if (level.includes("Full")) {
+  if (level?.includes("Full")) {
     copyOptions.push("full");
   }
-  if (level.includes("Medium")) {
+  if (level?.includes("Medium")) {
     copyOptions.push("medium");
   }
-  if (level.includes("Basic")) {
+  if (level?.includes("Basic")) {
     copyOptions.push("basics");
   }
   if (userauth) {
@@ -34,15 +33,15 @@ const detemineFilesToCopy = (options: IMainOptions) => {
 };
 
 export const copyTemplateFiles = async (options: IMainOptions) => {
-  const { templateDirectory } = options;
+  const { templateDirectory, targetDirectory } = options;
   const copyOptions = detemineFilesToCopy(options);
-  if (!copyOptions) return;
+  if (!templateDirectory || !targetDirectory) return;
+
   Promise.all(
     copyOptions.map((option: string) => {
-      if (!templateDirectory) return;
       copy(
         `${templateDirectory}/${option}`,
-        "C:/Users/Koren/Documents/EasyBackend/example", // copies the template into the relevant location without overwriting anything
+        targetDirectory, // copies the template into the relevant location without overwriting anything
         {
           clobber: false,
         }
@@ -51,7 +50,7 @@ export const copyTemplateFiles = async (options: IMainOptions) => {
   );
   copy(
     `${templateDirectory}/basics`,
-    "C:/Users/Koren/Documents/EasyBackend/example", // copies the template into the relevant location without overwriting anything
+    targetDirectory, // copies the template into the relevant location without overwriting anything
     {
       clobber: false,
     }
@@ -60,5 +59,5 @@ export const copyTemplateFiles = async (options: IMainOptions) => {
 
 export const writeToEnv = async (options: IMainOptions) => {
   if (!options.env || typeof options.env !== "string") return;
-  await write(`${options.targetDirectory}/.env`, `MONGO_URI="${options.env}"`);
+  await write(`${process.cwd()}/.env`, `MONGO_URI="${options.env}"`);
 };
