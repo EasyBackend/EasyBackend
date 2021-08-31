@@ -4,9 +4,10 @@ import path from "path";
 import execa from "execa";
 import { promisify } from "util";
 
-import { writeToEnv } from ".";
+// import { writeToEnv } from ".";
 import { IMainOptions } from "../types";
 import Logger from "../logger/logger";
+import { writeToEnv } from ".";
 
 const copy = promisify(ncp);
 const write = promisify(fs.writeFile);
@@ -18,10 +19,9 @@ const copyDatabaseFiles = async (options: IMainOptions) => {
       `{"database": "${options.database?.toLowerCase()}"}`
     );
   } catch ({ message }) {
-    Logger.error(
-      "FAIL at setup-util.js at ~line 16 trying to insert DB type to eb.config.json, KOREN I TOLD YOU TO CHECK THIS"
-    );
+    Logger.error(`at copyDatabaseFiles, at setup.util.ts: ${message}`);
   }
+
   const currentFileUrl = import.meta.url;
   const databaseTemplateDir = path
     .resolve(
@@ -40,9 +40,15 @@ const copyDatabaseFiles = async (options: IMainOptions) => {
   });
 };
 export const databaseSetup = async (options: IMainOptions) => {
-  await copyDatabaseFiles(options);
-  //   options.template === "typescript"
-  //     ? await install(tsMongo, { cwd: options.targetDirectory })
-  //     : await install(jsMongo, { cwd: options.targetDirectory });
-  return await writeToEnv(options);
+  await writeToEnv(options);
+  // * for now, because we only suppport mongoDB,
+  // * databseSetup() only writes the URI if there is one, to the .env file.
+  // TODO: create a proper databse setup, so it'll be easier to add support for different kinds of databases.
+  /*
+    await copyDatabaseFiles(options);
+    options.template === "typescript"
+      ? await install(tsMongo, { cwd: options.targetDirectory })
+      : await install(jsMongo, { cwd: options.targetDirectory });
+    return await writeToEnv(options);
+  */
 };

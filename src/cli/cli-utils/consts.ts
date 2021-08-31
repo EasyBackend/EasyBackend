@@ -104,3 +104,36 @@ export const builderCLINavQuestion = {
   ],
   default: "Prebuilt actions",
 };
+export const prebuiltActionsAvailable = [
+  {
+    action: "User Authentication",
+    description:
+      "'User' db model and type, JWT auth with registration, login, logout, and more.",
+  },
+  {
+    action: "Socket.io",
+    description:
+      "Connect your Node.js app with Socket.io in a matter of seconds",
+  },
+  {
+    action: "Error handling system",
+    description: "'Error' db model and type, save errors to database.",
+  },
+  {
+    action: "CRUD operations",
+    description: "CRUD operations for your database",
+  },
+];
+
+export const prebuiltActionsQuestion = {
+  type: "list",
+  name: "chosenAction",
+  message: "What do you want to do?",
+  choices: [
+    "User Authentication",
+    "Socket.io",
+    "Error handling system",
+    "CRUD operations",
+  ],
+  default: "Prebuilt actions",
+};

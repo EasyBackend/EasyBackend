@@ -8,7 +8,8 @@ import Listr from "listr";
 
 import Logger from "./logger/logger";
 import { IMainOptions } from "./types";
-import { copyTemplateFiles, createError } from "./utils";
+import { copyTemplateFiles, createError, databaseSetup } from "./utils";
+import { initGit } from "./cli/cli-utils";
 
 const access = promisify(fs.access);
 
@@ -55,26 +56,27 @@ export const createProject = async (options: IMainOptions) => {
       title: "Copy project files",
       task: () => copyTemplateFiles(options),
     },
-    // {
-    //   title: "Set up database",
-    //   task: () => databaseSetup(options),
-    // },
-    // {
-    //   title: "Initialize git",
-    //   task: () => initGit(options),
-    //   enabled: () => options.git || false,
-    // },
-    // {
-    //   title: "Install dependencies",
-    //   task: () =>
-    //     projectInstall({
-    //       cwd: options.targetDirectory,
-    //     }),
-    //   skip: () =>
-    //     !options.runInstall
-    //       ? "Pass --install to automatically install dependencies."
-    //       : undefined,
-    // },
+    {
+      title: "Set up database",
+      task: () => databaseSetup(options),
+    },
+    {
+      title: "Initialize git",
+      task: () => initGit(options),
+      enabled: () => options.git || false,
+    },
+    {
+      // TODO: When at home, add a package.json to the template folders, so dependencies are installed.
+      title: "Install dependencies",
+      task: () =>
+        projectInstall({
+          cwd: options.targetDirectory,
+        }),
+      skip: () =>
+        !options.runInstall
+          ? "Pass --install to automatically install dependencies."
+          : undefined,
+    },
   ]);
 
   await tasks.run();
