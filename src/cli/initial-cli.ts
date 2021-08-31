@@ -1,28 +1,8 @@
 #!/usr/bin/env node
-import arg from "arg";
 import inquirer from "inquirer";
-import { createProject } from "./main";
-import { questions } from "./utils";
-
-const parseArgumentsIntoOptions = (rawArgs: string[]) => {
-  const args = arg(
-    {
-      "--git": Boolean,
-      "--install": Boolean,
-      "-g": "--git",
-      "-y": "--yes",
-      "-i": "--install",
-    },
-    {
-      argv: rawArgs.slice(2),
-    }
-  );
-  return {
-    git: args["--git"] || false,
-    template: args._[0],
-    runInstall: args["--install"] || false,
-  };
-};
+import { createProject } from "../create-project";
+import { questions } from "./cli-utils";
+import { parseArgs } from "./cli-utils";
 
 const promptForMissingOptions = async (options: {
   git: any;
@@ -62,11 +42,24 @@ const promptForMissingOptions = async (options: {
     database: answers.database,
     env: answers.env,
     restGQL: answers.restGQL,
+    level: answers.level,
   };
 };
 
-export const cli = async (args: string[]) => {
-  let options = parseArgumentsIntoOptions(args);
+export const initial_cli = async (rawArgs: string[]) => {
+  const spec = {
+    "--git": Boolean,
+    "--install": Boolean,
+    "-g": "--git",
+    "-y": "--yes",
+    "-i": "--install",
+  };
+  const args = parseArgs(rawArgs, spec);
+  let options = {
+    git: args["--git"] || false,
+    template: args._[0],
+    runInstall: args["--install"] || false,
+  };
   options = await promptForMissingOptions(options);
   await createProject(options);
 };

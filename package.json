@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node ./src/bin/eb-create-server",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf ./src/build && tsc",
+    "build": "rimraf ./src/build && tsc && ncp ./src/templates ./src/build",
     "lint": "eslint . --ext .js,.ts --fix",
     "commit": "npx git-cz",
     "test:coverage": "jest --coverage",
@@ -53,8 +53,8 @@
     "eslint-plugin-prettier": "^3.4.1"
   },
   "bin": {
-    "eb-cli": "./src/build/cli.js",
     "@korenezri/easy-backend": "bin/eb-create-server",
+    "eb-init-cli": "./src/bin/eb-init-cli",
     "eb-create-server": "./src/bin/eb-create-server"
   },
   "config": {
@@ -63,6 +63,7 @@
     }
   },
   "files": [
-    "src/build/**/*"
+    "src/build/**/*",
+    "src/build/cli/**/*"
   ]
 }

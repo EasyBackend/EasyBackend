@@ -8,7 +8,6 @@ import Listr from "listr";
 
 import Logger from "./logger/logger";
 import { IMainOptions } from "./types";
-import { databaseSetup, initGit } from "./utils/setup.util";
 import { copyTemplateFiles, createError } from "./utils";
 
 const access = promisify(fs.access);

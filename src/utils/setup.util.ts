@@ -46,13 +46,3 @@ export const databaseSetup = async (options: IMainOptions) => {
   //     : await install(jsMongo, { cwd: options.targetDirectory });
   return await writeToEnv(options);
 };
-
-export const initGit = async (options: IMainOptions) => {
-  const result = await execa("git", ["init"], {
-    cwd: options.targetDirectory,
-  });
-  if (result.failed) {
-    return Promise.reject(Logger.error("Failed to initialize Git"));
-  }
-  return;
-};
