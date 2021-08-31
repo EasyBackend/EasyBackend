@@ -34,15 +34,14 @@ const detemineFilesToCopy = (options: IMainOptions) => {
 
 export const copyTemplateFiles = async (options: IMainOptions) => {
   const { templateDirectory, targetDirectory } = options;
-  console.log("LALALA:", targetDirectory);
+  console.log("Target:", targetDirectory);
   const copyOptions = detemineFilesToCopy(options);
-  console.log(targetDirectory + "\\example");
   Promise.all(
     copyOptions.map((option: string) => {
       if (!templateDirectory || !targetDirectory) return;
       copy(
         `${templateDirectory}/${option}`,
-        `${targetDirectory}\\example`, // copies the template into the relevant location without overwriting anything
+        process.cwd(), // copies the template into the relevant location without overwriting anything
         {
           clobber: false,
         }
@@ -52,7 +51,7 @@ export const copyTemplateFiles = async (options: IMainOptions) => {
   if (!templateDirectory || !targetDirectory) return;
   copy(
     `${templateDirectory}/basics`,
-    targetDirectory, // copies the template into the relevant location without overwriting anything
+    process.cwd(), // copies the template into the relevant location without overwriting anything
     {
       clobber: false,
     }

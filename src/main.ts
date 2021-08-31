@@ -24,7 +24,7 @@ export const createProject = async (options: IMainOptions) => {
   };
 
   const currentFileUrl = import.meta.url; // current file url helps us get the template's directory path
-
+  console.log("CURRENT FILE URL: ", currentFileUrl);
   if (!template) {
     createError(`${chalk.red.bold("ERROR")}, Invalid template name`); // no template no money
     return;
