@@ -21,6 +21,7 @@
         <br />
     <br />
   <p align="center">
+    <h2 align="center"><a href="https://www.youtube.com/watch?v=LQ17fIU51cQ&t=114s">Quick video introduction of the first MVP of Easy Backend - Easy Peasy Backend</a></h2>
     <h3 align="center">Writing backend is a repetitive thing.</h3>
     <br />
     <br />
@@ -61,7 +62,6 @@
 
 The Easy Backend package provides an easy way to build your server and save you the hassle and time of doing all the repetitive tasks and just focus on inventing and writing new code.
 
-Quick video introduction of the first MVP of Easy Backend - Easy Peasy Backend: https://www.youtube.com/watch?v=LQ17fIU51cQ&t=114s
 
 ## Motivation
 
