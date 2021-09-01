@@ -10,8 +10,6 @@
     <img src="https://github.com/KorenEzri/EasyBackend/blob/main/logo2.png?raw=true" alt="Logo" width="250" height="130">
   </a>
 
-  <h3 align="center">Easy Backend</h3>
-
   <h3 align="center">WARNING: This is not a finished version, nor is this even an MVP: it's a work-in-progress, and will be a polished version of Easy Peasy Backend, which is the original MVP. This package is not to be used yet. When it is ready for basic use - this warning will be removed.</h2>
       <br />
     <br />
