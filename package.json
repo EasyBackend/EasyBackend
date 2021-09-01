@@ -2,7 +2,6 @@
   "name": "easybackend",
   "version": "1.0.0",
   "description": "Why repeat the same actions every time you build a node.js server? Let Easy Backend do that for you.",
-  "homepage": "https://github.com/KorenEzri/EasyBackend",
   "main": "build/index.js",
   "scripts": {
     "start": "node ./src/bin/eb-create-server",
