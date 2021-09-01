@@ -65,7 +65,6 @@
     }
   },
   "files": [
-    "src/build/**/*",
-    "src/build/cli/**/*"
+    "src/build/**/*"
   ]
 }
