@@ -31,7 +31,7 @@ export const createProject = async (options: IMainOptions) => {
       template.toLowerCase()
     )
     .slice(3)
-    .replace("main.js\\", "");
+    .replace("create-project.js\\", "");
   const targetDirectory = process.cwd();
 
   options = {
@@ -41,6 +41,7 @@ export const createProject = async (options: IMainOptions) => {
   };
 
   try {
+    console.log("TEMPLATE DIR: ", templateDir);
     await access(templateDir, fs.constants.R_OK);
   } catch ({ message }) {
     // makes sure folder is there
