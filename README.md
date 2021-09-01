@@ -12,15 +12,25 @@
 
   <h3 align="center">Easy Backend</h3>
 
+  <h3 align="center">WARNING: This is not a finished version, nor is this even an MVP: it's a work-in-progress, and will be a polished version of Easy Peasy Backend, which is the original MVP. This package is not to be used yet. When it is ready for basic use - this warning will be removed.</h2>
+      <br />
+    <br />
+    <h2 align="center">Contributions are welcome!</h2>
+        <br />
+    <br />
+        <br />
+    <br />
   <p align="center">
-    Writing backend is, for the most part, a repetitive thing.
+    <h3 align="center">Writing backend is a repetitive thing.</h3>
     <br />
     <br />
+    <p align="center">
     <a href="https://github.com/KorenEzri/EasyBackend/blob/master/__tests__/middleware.test.ts">View Examples</a>
     ·
     <a href="https://github.com/KorenEzri/EasyBackend/issues">Report Bug</a>
     ·
     <a href="https://github.com/KorenEzri/EasyBackend/issues">Request Feature</a>
+  </p>
   </p>
 </p>
 <p align="center">
