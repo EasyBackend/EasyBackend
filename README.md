@@ -14,9 +14,6 @@
       <br />
     <br />
     <h2 align="center">Contributions are welcome!</h2>
-        <br />
-    <br />
-        <br />
     <br />
   <p align="center">
     <h2 align="center"><a href="https://www.youtube.com/watch?v=LQ17fIU51cQ&t=114s">Quick video introduction of the first MVP of Easy Backend - Easy Peasy Backend</a></h2>
