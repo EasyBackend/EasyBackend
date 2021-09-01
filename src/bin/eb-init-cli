@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
 require = require("esm")(module /*, options */);
-require("../build/cli/initial-cli.js").initial_cli(process.argv);
+require("../build/cli/builder-cli.js").builder_cli(process.argv);

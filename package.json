@@ -6,8 +6,10 @@
   "main": "build/index.js",
   "scripts": {
     "start": "node ./src/bin/eb-create-server",
+    "eb": "node ./src/bin/eb-init-cli",
+    "delexample": "rimraf ./example",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf ./src/build && tsc",
+    "build": "rimraf ./src/build && tsc && ncp ./src/templates ./src/build",
     "lint": "eslint . --ext .js,.ts --fix",
     "commit": "npx git-cz",
     "test:coverage": "jest --coverage",
@@ -35,27 +37,27 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@types/inquirer": "^7.3.3",
     "@types/listr": "^0.14.4",
     "@types/morgan": "^1.9.3",
     "@types/ncp": "^2.0.5",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.4.2",
-    "standard-version": "^9.3.1",
-    "cz-conventional-changelog": "^3.3.0",
-    "@commitlint/cli": "^13.1.0",
-    "@commitlint/config-conventional": "^13.1.0",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-prettier": "^3.4.1"
+    "eslint-plugin-prettier": "^3.4.1",
+    "rimraf": "^3.0.2",
+    "standard-version": "^9.3.1",
+    "typescript": "^4.4.2"
   },
   "bin": {
-    "eb-cli": "./src/build/cli.js",
     "@korenezri/easy-backend": "bin/eb-create-server",
+    "eb-init-cli": "./src/bin/eb-init-cli",
     "eb-create-server": "./src/bin/eb-create-server"
   },
   "config": {
@@ -64,6 +66,7 @@
     }
   },
   "files": [
-    "src/build/**/*"
+    "src/build/**/*",
+    "src/build/cli/**/*"
   ]
 }

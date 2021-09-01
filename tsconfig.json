@@ -1,5 +1,10 @@
 {
-  "exclude": ["node_modules", "./src/build/**/*", "example"],
+  "exclude": [
+    "node_modules",
+    "./src/build/**/*",
+    "example",
+    "./src/templates/**/*"
+  ],
   "compilerOptions": {
     "target": "ES2017" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */,
     "module": "es2020" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */,
