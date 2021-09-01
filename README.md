@@ -22,7 +22,7 @@
     <br />
   <p align="center">
     <h2 align="center"><a href="https://www.youtube.com/watch?v=LQ17fIU51cQ&t=114s">Quick video introduction of the first MVP of Easy Backend - Easy Peasy Backend</a></h2>
-    <h3 align="center">Writing backend is a repetitive thing.</h3>
+    <h3 align="center">Writing backend is a repetitive thing. Why not automate it?</h3>
     <br />
     <br />
     <p align="center">
