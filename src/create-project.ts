@@ -23,7 +23,6 @@ export const createProject = async (options: IMainOptions) => {
     createError(`${chalk.red.bold("ERROR")}, Invalid template name`); // no template no money
     return;
   }
-
   const templateDir = path
     .resolve(
       new URL(currentFileUrl).pathname,

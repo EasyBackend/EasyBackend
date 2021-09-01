@@ -8,7 +8,9 @@ const copy = promisify(ncp);
 const write = promisify(fs.writeFile);
 
 export const writeToEnv = async (options: IMainOptions) => {
-  if (!options.env || typeof options.env !== "string") return;
+  if (!options.env || typeof options.env !== "string") {
+    options.env = "__";
+  }
   await write(`${process.cwd()}/.env`, `MONGO_URI="${options.env}"`);
 };
 
