@@ -1,0 +1,22 @@
+utils:
+  - src/utils/**/*
+cli-utils:
+  - src/cli/cli-utils/**/*
+types:
+  - src/types/**/*
+initial-cli:
+  - src/cli/initial-cli.ts
+builder-cli:
+  - src/cli/builder-cli.ts
+prebuilt-actions:
+  - src/cli/action-clis/prebuilt-actions/**/*
+custom-type:
+  - src/cli/action-clis/custom-type/**/*
+custom-action:
+  - src/cli/action-clis/custom-action/**/*
+package:
+  - app/package.json
+workflows:
+  - .github/workflows/**/*
+tests:
+  - __tests__/**/*

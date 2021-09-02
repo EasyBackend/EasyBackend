@@ -3,9 +3,12 @@ import inquirer from "inquirer";
 import {
   prebuiltActionsQuestion,
   prebuiltActionsAvailable,
+  getTracker,
 } from "../../cli-utils";
+import { IRestTracker, IGQLTracker } from "../../../types";
 
-export const prebuiltActions = async () => {
+export const prebuiltActions = async (tracker?: IRestTracker | IGQLTracker) => {
+  if (!tracker) tracker = await getTracker();
   // TODO: get rid of this "any"
   console.table(
     prebuiltActionsAvailable.reduce((acc: any, { action, ...x }) => {

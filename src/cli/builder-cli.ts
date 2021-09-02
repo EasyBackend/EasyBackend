@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 import inquirer from "inquirer";
-import { actionOptions, builderCLINavQuestion, parseArgs } from "./cli-utils";
-import { prebuiltActions } from "./action-clis";
+import {
+  actionOptions,
+  builderCLINavQuestion,
+  getTracker,
+  parseArgs,
+} from "./cli-utils";
+import { customType, prebuiltActions } from "./action-clis";
 
 export const builder_cli = async (rawArgs: string[]) => {
+  const tracker = await getTracker();
   // TODO: Decide what to do with flags vv vv vv
   const spec = {
     "--prebuilt": Boolean,
@@ -28,9 +34,10 @@ export const builder_cli = async (rawArgs: string[]) => {
   const { nav } = await inquirer.prompt([builderCLINavQuestion]);
   switch (nav) {
     case "Prebuilt actions":
-      await prebuiltActions();
+      await prebuiltActions(tracker);
       break;
-    case "Custom type":
+    case "Create a custom type":
+      await customType(tracker);
       break;
     case "Custom action":
       break;

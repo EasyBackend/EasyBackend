@@ -7,16 +7,17 @@ import ncp from "ncp";
 const copy = promisify(ncp);
 const write = promisify(fs.writeFile);
 
-export const writeToEnv = async (options: IMainOptions) => {
-  if (!options.env || typeof options.env !== "string") {
-    options.env = "__";
+export const writeToEnv = async (options: Partial<IMainOptions>) => {
+  if (!options.databaseUri || typeof options.databaseUri !== "string") {
+    options.databaseUri = "__";
   }
-  await write(`${process.cwd()}/.env`, `MONGO_URI="${options.env}"`);
+  await write(`${process.cwd()}/.env`, `MONGO_URI="${options.databaseUri}"`);
 };
 
-export const copyTemplateFiles = async (options: IMainOptions) => {
+export const copyTemplateFiles = async (options: Partial<IMainOptions>) => {
   const { templateDirectory, targetDirectory } = options;
   const copyOptions = detemineFilesToCopy(options);
+
   if (!templateDirectory || !targetDirectory) return;
   await Promise.all(
     copyOptions.map((option: string) => {
@@ -29,6 +30,8 @@ export const copyTemplateFiles = async (options: IMainOptions) => {
       );
     })
   );
+  console.log("TEMPLATE DIRECTORY: ", templateDirectory);
+  console.log("TARGET DIRECTORY: ", targetDirectory);
   await copy(
     `${templateDirectory}/basics`,
     targetDirectory, // copies the template into the relevant location without overwriting anything
@@ -36,10 +39,11 @@ export const copyTemplateFiles = async (options: IMainOptions) => {
       clobber: false,
     }
   );
+  console.log("INSIDE copytemplatefiles()");
 };
 
-export const detemineFilesToCopy = (options: IMainOptions) => {
-  const { level, userauth, errorlogging, socket } = options;
+export const detemineFilesToCopy = (options: Partial<IMainOptions>) => {
+  const { level } = options;
   const copyOptions: string[] = [];
   if (level?.includes("Full")) {
     copyOptions.push("full");
@@ -49,15 +53,6 @@ export const detemineFilesToCopy = (options: IMainOptions) => {
   }
   if (level?.includes("Basic")) {
     copyOptions.push("basics");
-  }
-  if (userauth) {
-    copyOptions.push("extras/userauth");
-  }
-  if (errorlogging) {
-    copyOptions.push("extras/errorlogging");
-  }
-  if (socket) {
-    copyOptions.push("extras/socket");
   }
   return copyOptions;
 };

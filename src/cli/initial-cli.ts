@@ -40,8 +40,8 @@ const promptForMissingOptions = async (options: {
     template: options.template || answers.template,
     git: options.git || answers.git,
     database: answers.database,
-    env: answers.env,
-    restGQL: answers.restGQL,
+    databaseUri: answers.databaseUri,
+    implementation: answers.implementation,
     level: answers.level,
   };
 };

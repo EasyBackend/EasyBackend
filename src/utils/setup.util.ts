@@ -39,7 +39,7 @@ const copyDatabaseFiles = async (options: IMainOptions) => {
     clobber: false,
   });
 };
-export const databaseSetup = async (options: IMainOptions) => {
+export const databaseSetup = async (options: Partial<IMainOptions>) => {
   await writeToEnv(options);
   // * for now, because we only suppport mongoDB,
   // * databseSetup() only writes the URI if there is one, to the .env file.

@@ -8,15 +8,21 @@ import Listr from "listr";
 
 import Logger from "./logger/logger";
 import { IMainOptions } from "./types";
-import { copyTemplateFiles, createError, databaseSetup } from "./utils";
+import {
+  copyTemplateFiles,
+  createError,
+  databaseSetup,
+  gqlTracker,
+  restTracker,
+} from "./utils";
 import { initGit } from "./cli/cli-utils";
 
 const access = promisify(fs.access);
 
-export const createProject = async (options: IMainOptions) => {
+export const createProject = async (options: Partial<IMainOptions>) => {
   // creates project
-  const { template, restGQL } = options;
-  const restfulOrGQL = restGQL === "Restful API" ? "restful" : "gql"; // restful or graph ql
+  const { template, implementation } = options;
+  const restfulOrGQL = implementation === "Restful API" ? "rest" : "gql"; // restful or graph ql
   const currentFileUrl = import.meta.url; // current file url helps us get the template's directory path
 
   if (!template) {
@@ -40,7 +46,6 @@ export const createProject = async (options: IMainOptions) => {
   };
 
   try {
-    console.log("TEMPLATE DIR: ", templateDir);
     await access(templateDir, fs.constants.R_OK);
   } catch ({ message }) {
     // makes sure folder is there
@@ -77,10 +82,16 @@ export const createProject = async (options: IMainOptions) => {
           ? "Pass --install to automatically install dependencies."
           : undefined,
     },
+    {
+      title: "Creating config file",
+      task: () =>
+        (options.implementation === "gql" ? gqlTracker : restTracker).init(
+          options as IMainOptions
+        ),
+    },
   ]);
 
   await tasks.run();
-
   Logger.info(`${chalk.green.bold("DONE")} Project ready.`);
   return true;
 };

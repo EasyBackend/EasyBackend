@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { IQuestion } from "../../types";
 const serverLevelChoices = [
   "Full: includes eslint, husky, commitlint, changelog, logger, and github workflows",
@@ -5,7 +6,8 @@ const serverLevelChoices = [
   "Basic: includes only a logger",
   //   "Custom",
 ];
-
+export const longAssLine =
+  "============================================================================================================";
 export const restOrGql = {
   rest: {
     language: {
@@ -39,12 +41,12 @@ export const questions: IQuestion[] = [
   },
   {
     type: "input",
-    name: "env",
+    name: "databaseUri",
     message: "Database URI?",
   },
   {
     type: "list",
-    name: "restGQL",
+    name: "implementation",
     message:
       "Would you like to use GraphQL or build a Restful API? (default: Restful API)",
     choices: ["Restful API", "GraphQL"],
@@ -136,4 +138,33 @@ export const prebuiltActionsQuestion = {
     "CRUD operations",
   ],
   default: "Prebuilt actions",
+};
+
+export const customTypeQuestons = {
+  typeName: {
+    type: "input",
+    name: "typeName",
+    message: `What will be the name of the type? (example: tvShow, book, etc..)\n ${chalk.bold.cyan(
+      "Type name: "
+    )}`,
+  },
+  typeProp: {
+    type: "input",
+    name: "typeProp",
+    message: `Please enter a property in the form of 'name:type'\n ${chalk.bold.cyan(
+      "Property:"
+    )}`,
+  },
+  morePropsQuestions: {
+    type: "confirm",
+    name: "moreProps",
+    message: "Do you want to add more properties?",
+    default: true,
+  },
+  confirmType: {
+    type: "confirm",
+    name: "confirmType",
+    message: `Is this OK?`,
+    default: false,
+  },
 };
