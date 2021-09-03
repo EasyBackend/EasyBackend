@@ -2,8 +2,8 @@ name: Build and publish
 
 on:
   push:
-    branches: ["master"]
-  jobs:
+    branches: ["main"]
+jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 100
