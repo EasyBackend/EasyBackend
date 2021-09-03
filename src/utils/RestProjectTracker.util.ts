@@ -11,7 +11,11 @@ export class RestProjectTracker extends BaseTracker implements IRestTracker {
   constructor() {
     super();
     this.writeToBottomBar = this.writeToBottomBar.bind(this);
+    this.addToStorage = this.addToStorage.bind(this);
+    this.getFromStorage = this.getFromStorage.bind(this);
+    this.setHistory = this.setHistory.bind(this);
     this.init = this.init.bind(this);
+    this.writeRoute = this.writeRoute.bind(this);
   }
 
   async validateConfig(config: IRestConfig) {}

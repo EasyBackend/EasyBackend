@@ -5,9 +5,33 @@ import {
   prebuiltActionsAvailable,
   getTracker,
 } from "../../cli-utils";
-import { IRestTracker, IGQLTracker } from "../../../types";
+import { RestProjectTracker, GqlProjectTracker } from "../../../utils";
 
-export const prebuiltActions = async (tracker?: IRestTracker | IGQLTracker) => {
+const prebuilt_navigate = async (
+  tracker: RestProjectTracker | GqlProjectTracker
+) => {
+  const { nav } = await inquirer.prompt([prebuiltActionsQuestion]);
+  switch (nav) {
+    case "Prebuilt actions":
+      tracker.setHistory(prebuilt_navigate);
+      break;
+    case "Custom type":
+      tracker.setHistory(prebuilt_navigate);
+      break;
+    case "Custom action":
+      tracker.setHistory(prebuilt_navigate);
+      break;
+    case "Back":
+      await tracker.history.goBack(tracker);
+      break;
+    default:
+      break;
+  }
+};
+
+export const prebuiltActions = async (
+  tracker?: RestProjectTracker | GqlProjectTracker
+) => {
   if (!tracker) tracker = await getTracker();
   // TODO: get rid of this "any"
   console.table(
@@ -16,15 +40,5 @@ export const prebuiltActions = async (tracker?: IRestTracker | IGQLTracker) => {
       return acc;
     }, {})
   );
-  const { nav } = await inquirer.prompt([prebuiltActionsQuestion]);
-  switch (nav) {
-    case "Prebuilt actions":
-      break;
-    case "Custom type":
-      break;
-    case "Custom action":
-      break;
-    default:
-      break;
-  }
+  if (tracker) await prebuilt_navigate(tracker);
 };

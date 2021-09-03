@@ -30,3 +30,14 @@ export interface IDB {
 export interface IGQLTracker {
   config: IGqlConfig;
 }
+
+export interface ITrackerStorage {
+  as: string;
+  value: any;
+}
+
+export interface ITrackerHistory {
+  history: Function;
+  get: Function;
+  goBack: Function;
+}

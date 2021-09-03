@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 import inquirer from "inquirer";
-import { getTracker, longAssLine } from "../../cli-utils";
-import { customTypeQuestons } from "../../cli-utils";
+
+import {
+  promptForTypeName,
+  promptForTypeProps,
+  confirmTypeCreation,
+  handleCustomTypePropsDeletion,
+  printCustomTypeDetails,
+} from "./custom-type.util";
 import { GqlProjectTracker, RestProjectTracker } from "../../../utils";
-import chalk from "chalk";
+import { customTypeQuestons, getTracker } from "../../cli-utils";
 import Logger from "../../../logger/logger";
 
 export const customType = async (
@@ -14,35 +20,36 @@ export const customType = async (
     Logger.error(`No tracker found, aborting..`);
     return;
   }
-  const typeProperties: string[] = [];
-  let addMorePropertiesFlag = false;
-  const { typeName } = await inquirer.prompt([customTypeQuestons.typeName]);
-  while (addMorePropertiesFlag === false) {
-    tracker.writeToBottomBar(
-      `${new inquirer.Separator(
-        longAssLine
-      )}\nAccepted types: ${chalk.yellowBright(tracker.acceptedTypes)}\n${
-        typeProperties.length ? `Properties: ${typeProperties}}` : ""
-      }`
-    );
-    const { typeProp } = await inquirer.prompt([customTypeQuestons.typeProp]);
-    // TODO: add type validation here
-    typeProperties.push(typeProp);
-    5;
-    tracker.writeToBottomBar(
-      `${new inquirer.Separator(longAssLine)}\nProperties: ${typeProperties}}`
-    );
-    const { moreProps } = await inquirer.prompt([
-      customTypeQuestons.morePropsQuestions,
-    ]);
-    if (!moreProps) addMorePropertiesFlag = true;
+  await promptForTypeName(tracker); // ask the user for a type name
+  await promptForTypeProps(tracker); // ask the user for type properties
+  printCustomTypeDetails(tracker); // print the details of the custom type for the user
+  await confirmTypeCreation(tracker);
+  process.removeAllListeners();
+  await navigateFromConfirm(tracker);
+};
+
+const navigateFromConfirm = async (
+  tracker: RestProjectTracker | GqlProjectTracker
+) => {
+  const confirmType = tracker.getFromStorage("confirmTypeCreation");
+  if (confirmType) {
+  } else {
+    const { notOK } = await inquirer.prompt([customTypeQuestons.typeNotOK]);
+    switch (notOK) {
+      case "Delete properties":
+        process.removeAllListeners();
+        await handleCustomTypePropsDeletion(tracker, navigateFromConfirm);
+        break;
+      case "Add more properties":
+        process.removeAllListeners();
+        break;
+      case "Edit properties":
+        process.removeAllListeners();
+        break;
+      case "none":
+        break;
+      default:
+        break;
+    }
   }
-  tracker.writeToBottomBar(
-    `${new inquirer.Separator(longAssLine)}\n${chalk.green.bold(
-      "Type name: "
-    )}${typeName}\n\n${chalk.yellow.bold("Properties: ")}${typeProperties} \n`
-  );
-  const { confirmType } = await inquirer.prompt([
-    customTypeQuestons.confirmType,
-  ]);
 };

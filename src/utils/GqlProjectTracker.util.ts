@@ -12,7 +12,12 @@ export class GqlProjectTracker extends BaseTracker implements IGQLTracker {
   constructor() {
     super();
     this.writeToBottomBar = this.writeToBottomBar.bind(this);
+    this.addToStorage = this.addToStorage.bind(this);
+    this.getFromStorage = this.getFromStorage.bind(this);
+    this.setHistory = this.setHistory.bind(this);
     this.init = this.init.bind(this);
+    this.writeResolver = this.writeResolver.bind(this);
+    this.writeResolverTypedef = this.writeResolverTypedef.bind(this);
   }
 
   async init(opts: IMainOptions) {

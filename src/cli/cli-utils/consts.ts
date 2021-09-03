@@ -41,12 +41,12 @@ export const questions: IQuestion[] = [
   },
   {
     type: "input",
-    name: "databaseUri",
+    name: "env",
     message: "Database URI?",
   },
   {
     type: "list",
-    name: "implementation",
+    name: "restGQL",
     message:
       "Would you like to use GraphQL or build a Restful API? (default: Restful API)",
     choices: ["Restful API", "GraphQL"],
@@ -129,22 +129,23 @@ export const prebuiltActionsAvailable = [
 
 export const prebuiltActionsQuestion = {
   type: "list",
-  name: "chosenAction",
+  name: "nav",
   message: "What do you want to do?",
   choices: [
     "User Authentication",
     "Socket.io",
     "Error handling system",
     "CRUD operations",
+    "Back",
   ],
-  default: "Prebuilt actions",
+  default: "Back",
 };
 
 export const customTypeQuestons = {
   typeName: {
     type: "input",
     name: "typeName",
-    message: `What will be the name of the type? (example: tvShow, book, etc..)\n ${chalk.bold.cyan(
+    message: `What will be the name of the type? (example: tvShow, book, etc..)\n${chalk.bold.cyan(
       "Type name: "
     )}`,
   },
@@ -166,5 +167,12 @@ export const customTypeQuestons = {
     name: "confirmType",
     message: `Is this OK?`,
     default: false,
+  },
+  typeNotOK: {
+    type: "list",
+    name: "notOK",
+    message: "What do you want to do?",
+    choices: ["Delete properties", "Add more properties", "Edit properties"],
+    default: "none",
   },
 };
