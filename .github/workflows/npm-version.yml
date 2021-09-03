@@ -24,8 +24,8 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: Test app
-        run: npm run test
+      # - name: Test app
+      #   run: npm run test
 
       - name: Build package
         run: npm run build

@@ -7,7 +7,7 @@
     "start": "node ./src/bin/eb-create-server",
     "eb": "node ./src/bin/eb-init-cli",
     "delexample": "rimraf ./example",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "",
     "build": "rimraf ./src/build && tsc && ncp ./src/templates ./src/build",
     "lint": "eslint . --ext .js,.ts --fix",
     "commit": "npx git-cz",
