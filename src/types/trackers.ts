@@ -4,9 +4,15 @@ export type Types = "N/A" | string[];
 export type Language = "typescript" | "javascript";
 export type Implementaion = "gql" | "rest";
 
+interface IAllowedTypes {
+  arrayTypes: string[];
+  primitiveTypes: string[];
+  objectTypes: string[];
+}
 interface IBaseConfig {
   opts: Omit<IMainOptions, "databaseUri">;
   plugins: string[];
+  allowedTypes: IAllowedTypes;
 }
 
 export interface IGqlConfig extends IBaseConfig {

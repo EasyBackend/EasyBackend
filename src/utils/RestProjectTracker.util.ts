@@ -1,5 +1,6 @@
 import fs from "fs";
 import { promisify } from "util";
+import { allowedTypes } from ".";
 
 import { IMainOptions, IRestConfig, IRestTracker } from "../types";
 import { BaseTracker } from "./BaseTracker.util";
@@ -26,6 +27,7 @@ export class RestProjectTracker extends BaseTracker implements IRestTracker {
       routes: [],
       middlewares: [],
       plugins: [],
+      allowedTypes,
     };
     delete toCreate.opts.databaseUri;
     this.config = toCreate;

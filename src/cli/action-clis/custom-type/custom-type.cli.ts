@@ -6,7 +6,6 @@ import {
   promptForTypeProps,
   confirmTypeCreation,
   handleCustomTypePropsDeletion,
-  printCustomTypeDetails,
 } from "./custom-type.util";
 import { GqlProjectTracker, RestProjectTracker } from "../../../utils";
 import { customTypeQuestons, getTracker } from "../../cli-utils";
@@ -22,29 +21,34 @@ export const customType = async (
   }
   await promptForTypeName(tracker); // ask the user for a type name
   await promptForTypeProps(tracker); // ask the user for type properties
-  printCustomTypeDetails(tracker); // print the details of the custom type for the user
-  await confirmTypeCreation(tracker);
-  process.removeAllListeners();
   await navigateFromConfirm(tracker);
 };
 
 const navigateFromConfirm = async (
   tracker: RestProjectTracker | GqlProjectTracker
 ) => {
-  const confirmType = tracker.getFromStorage("confirmTypeCreation");
+  process.removeAllListeners(); // avoid memory leaks
+  await confirmTypeCreation(tracker); // confirm if it's OK or not
+  const confirmType = tracker.getFromStorage("confirmTypeCreation"); // check confirm
   if (confirmType) {
   } else {
-    const { notOK } = await inquirer.prompt([customTypeQuestons.typeNotOK]);
+    // if user answered 'NO":
+    const { notOK } = await inquirer.prompt([customTypeQuestons.typeNotOK]); // asks user what they want to do. options are:
+    // [Delete properties, Add more properties, Edit properties, default-"none"]
     switch (notOK) {
       case "Delete properties":
-        process.removeAllListeners();
-        await handleCustomTypePropsDeletion(tracker, navigateFromConfirm);
+        tracker.setHistory(navigateFromConfirm);
+        // do the requested action then return user to this point in history - navigateFromConfirm()
+        await handleCustomTypePropsDeletion(tracker, navigateFromConfirm); // user can delete props
         break;
       case "Add more properties":
-        process.removeAllListeners();
+        tracker.setHistory(navigateFromConfirm);
+        // do the requested action then return user to this point in history - navigateFromConfirm()
+        await promptForTypeProps(tracker, true); // ask the user for type properties
         break;
       case "Edit properties":
-        process.removeAllListeners();
+        tracker.setHistory(navigateFromConfirm);
+        // do the requested action then return user to this point in history - navigateFromConfirm()
         break;
       case "none":
         break;

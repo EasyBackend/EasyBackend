@@ -46,7 +46,7 @@ export const questions: IQuestion[] = [
   },
   {
     type: "list",
-    name: "restGQL",
+    name: "implementation",
     message:
       "Would you like to use GraphQL or build a Restful API? (default: Restful API)",
     choices: ["Restful API", "GraphQL"],
