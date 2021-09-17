@@ -37,4 +37,5 @@ export const allowedTypes = {
   arrayTypes: allTypesAsArrays,
   primitiveTypes,
   objectTypes,
+  customTypes: [],
 };

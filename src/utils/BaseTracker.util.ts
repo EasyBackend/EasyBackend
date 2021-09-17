@@ -1,7 +1,7 @@
 import inquirer from "inquirer";
 import { RestProjectTracker, GqlProjectTracker } from ".";
 import { longAssLine } from "../cli/cli-utils";
-import { ITrackerStorage, ITrackerHistory } from "../types";
+import { ITrackerStorage, ITrackerHistory, StorageType } from "../types";
 
 export class BaseTracker {
   history = {} as ITrackerHistory;
@@ -18,7 +18,7 @@ export class BaseTracker {
 
   writeToBottomBar(content: string, clear?: boolean, seperator?: boolean) {
     if (clear) console.clear();
-    // writes a big seperator line and then some text in the CLI
+    // @seperator writes a big seperator line and then some text in the CLI
     const ui = new inquirer.ui.BottomBar();
     ui.log.write(
       `${
@@ -44,9 +44,9 @@ export class BaseTracker {
       this.storage.push(data);
     }
   }
-  getFromStorage(as: string) {
+  getFromStorage(key: StorageType) {
     // self explanatory.
-    return this.storage.find((item) => item.as === as)?.value;
+    return this.storage.find((item) => item.as === key)?.value;
   }
   setHistory(history: Function) {
     //?  sets the history object with all it's methods.
@@ -57,3 +57,17 @@ export class BaseTracker {
     // TODO: add comments to explain this weirdness, or make it less weird.
   }
 }
+
+export const getAllAllowedTypes = (
+  tracker: RestProjectTracker | GqlProjectTracker
+) => {
+  const { arrayTypes, objectTypes, primitiveTypes, customTypes } =
+    tracker.config.allowedTypes;
+  const validTypes: string[] = [
+    ...arrayTypes,
+    ...objectTypes,
+    ...primitiveTypes,
+    ...customTypes,
+  ];
+  return validTypes;
+};

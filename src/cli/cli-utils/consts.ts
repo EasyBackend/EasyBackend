@@ -152,7 +152,7 @@ export const customTypeQuestons = {
   typeProp: {
     type: "input",
     name: "typeProp",
-    message: `Please enter a property in the form of 'name:type'\n ${chalk.bold.cyan(
+    message: `Please enter a property in the form of 'name:type', or leave empty to cancel.\n ${chalk.bold.cyan(
       "Property:"
     )}`,
   },
