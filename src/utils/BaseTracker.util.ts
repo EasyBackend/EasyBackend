@@ -27,6 +27,7 @@ export class BaseTracker {
     );
   }
   addToStorage(data: ITrackerStorage | ITrackerStorage[], replace?: boolean) {
+    // TODO: improve this function.
     // adds or replaces an item in the temporary storage.
     if (replace && !Array.isArray(data)) {
       const replaceIndex = this.storage.findIndex(

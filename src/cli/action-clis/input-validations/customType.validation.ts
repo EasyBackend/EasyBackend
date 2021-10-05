@@ -1,9 +1,10 @@
 import {
   checkForSpecialChars,
+  getDuplicateObjects,
   handleDuplicateKeysInCustomType,
   validateDuplicateKeys,
 } from ".";
-import { StorageType } from "../../../types";
+import { ICustomTypeProp, StorageType } from "../../../types";
 import {
   RestProjectTracker,
   GqlProjectTracker,
@@ -31,13 +32,15 @@ export const validateCustomTypeProp = (
   tracker: RestProjectTracker | GqlProjectTracker,
   type: string
 ) => {
+  // TODO: add validation for when the type is an array-type,
+  // TODO: for example string[], but the user enters something like string[[[]] or [[]string, etc.
   const splatType = type.split(":");
-  const typeName = splatType[0].trim();
-  const typing = splatType[1].trim();
+  const typeName = splatType[0]?.trim();
+  const typing = splatType[1]?.trim();
   if (
     !typing ||
     !typeName ||
-    checkForSpecialChars(typing) === ValidationRes.INVALID ||
+    checkForSpecialChars(typing, true) === ValidationRes.INVALID ||
     checkForSpecialChars(typeName) === ValidationRes.INVALID
   ) {
     return ValidationRes.INVALID;
@@ -59,13 +62,14 @@ export const validateCustomTypeBeforeCreation = async (
 */
   const typeProps = tracker.getFromStorage(StorageType.typeCreationProps);
   // { key: string; type: string; }[]
-  const keysAndTypes = getKeysAndTypes(typeProps);
-  // string[]
-  const allKeys = keysAndTypes.map((keyType) => keyType?.key);
+  const keysAndTypes: ICustomTypeProp[] = getKeysAndTypes(typeProps);
+  // const allKeys = keysAndTypes.map((keyType) => keyType?.key);
   // check if there are duplicate keys for this type, and if there are, prompt the user to change them.
   // returns { validationRes: ValidationRes, duplicates: string[] }
-  const duplicates = validateDuplicateKeys(allKeys);
-  if (duplicates.validationRes === ValidationRes.INVALID) {
-    await handleDuplicateKeysInCustomType(tracker, duplicates.duplicates);
+  const duplicates: ICustomTypeProp[] = getDuplicateObjects(
+    keysAndTypes
+  );
+  if (duplicates.length > 0) {
+    // await handleDuplicateKeysInCustomType(tracker, duplicates);
   }
 };

@@ -176,3 +176,14 @@ export const customTypeQuestons = {
     default: "none",
   },
 };
+
+export const customTypeValidationQuestions = {
+  duplicates: {
+    type: "list",
+    name: "deleteOrRename",
+    message:
+      "A single type cannot have duplicate properties. Do you want to delete or rename the duplicates?",
+    choices: ["Select duplicates to delete", "Select duplicates to rename"],
+    default: "none",
+  },
+};

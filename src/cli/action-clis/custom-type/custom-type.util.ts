@@ -12,7 +12,7 @@ import {
   validateCustomTypeProp,
 } from "../input-validations";
 import Logger from "../../../logger/logger";
-import { StorageType } from "../../../types";
+import { ICustomTypeProp, StorageType } from "../../../types";
 
 // prompt user for type name and save it to tracker storage
 export const promptForTypeName = async (
@@ -144,21 +144,25 @@ export const handleCustomTypePropsDeletion = async (
   tracker: RestProjectTracker | GqlProjectTracker,
   navigationFunc: Function
 ) => {
+  // array of properties of the custom type
   const typeProperties: string[] = tracker.getFromStorage(
     StorageType.typeCreationProps
-  ); // array of properties of the custom type
-  const afterDeletion: string[] = await deleteFromListCLI(typeProperties); // array of props after deletion of selected props..
+  );
+  // array of props after deletion of selected props..
+  const afterDeletion: string[] = await deleteFromListCLI(typeProperties);
+  // save props to storage, replace old props in storage
   tracker.addToStorage(
     { as: StorageType.typeCreationProps, value: afterDeletion },
     true
-  ); // save props to storage, replace old props in storage
+  );
   printCustomTypeDetails(tracker);
-  await confirmTypeCreation(tracker); // confirm type creation
+  // confirm type creation
+  await confirmTypeCreation(tracker);
   await navigationFunc(tracker);
 };
 
 // take a string[] of strings that look like 'name:type' and return : ( { "key": string, "type": string }[] )
-export const getKeysAndTypes = (typeProps: string[]) => {
+export const getKeysAndTypes = (typeProps: string[]): ICustomTypeProp[] => {
   const keysAndTypes = typeProps.map((prop: string) => {
     let splat = prop.split(":");
     const key = splat[0].trim();
