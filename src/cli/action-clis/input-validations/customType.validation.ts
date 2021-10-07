@@ -1,8 +1,7 @@
 import {
   checkForSpecialChars,
-  getDuplicateObjects,
+  getDuplicateKeys,
   handleDuplicateKeysInCustomType,
-  validateDuplicateKeys,
 } from ".";
 import { ICustomTypeProp, StorageType } from "../../../types";
 import {
@@ -66,10 +65,10 @@ export const validateCustomTypeBeforeCreation = async (
   // const allKeys = keysAndTypes.map((keyType) => keyType?.key);
   // check if there are duplicate keys for this type, and if there are, prompt the user to change them.
   // returns { validationRes: ValidationRes, duplicates: string[] }
-  const duplicates: ICustomTypeProp[] = getDuplicateObjects(
+  const duplicates: string[] = getDuplicateKeys(
     keysAndTypes
   );
   if (duplicates.length > 0) {
-    // await handleDuplicateKeysInCustomType(tracker, duplicates);
+    await handleDuplicateKeysInCustomType(tracker, duplicates);
   }
 };

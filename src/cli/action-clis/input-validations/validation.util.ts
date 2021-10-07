@@ -1,8 +1,10 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
+import { validateCustomTypeBeforeCreation } from ".";
 import { ICustomTypeProp } from "../../../types";
 import { RestProjectTracker, GqlProjectTracker } from "../../../utils";
 import { customTypeValidationQuestions, ValidationRes } from "../../cli-utils";
+import {  handleDuplicateCustomTypePropsDeletion } from "../custom-type/custom-type.util";
 
 export const checkForSpecialChars = (
   string: string,
@@ -24,26 +26,28 @@ export const validateDuplicateKeys = (keys: string[]) => {
   return { validationRes: ValidationRes.INVALID, duplicates };
 };
 
-const findDuplicates = (arr) => {
-  let sorted_arr = arr.slice().sort();
-  let results = [];
-  for (let i = 0; i < sorted_arr.length - 1; i++) {
-    if (sorted_arr[i + 1] == sorted_arr[i]) {
-      results.push(sorted_arr[i]);
+export const getDuplicateKeys = (arr: ICustomTypeProp[]) => {
+  // TODO: make this function more efficient
+  const allKeys = arr.map((customTypeProp) => customTypeProp.key);
+  const sortedKeys = allKeys.slice().sort();
+  const duplicateKeys: string[] = [];
+  for (let i = 0; i < sortedKeys.length - 1; i++) {
+    if (sortedKeys[i + 1] == sortedKeys[i]) {
+      duplicateKeys.push(sortedKeys[i]);
     }
   }
-  return results;
+  return Array.from(new Set(duplicateKeys));
 };
-
-export const getDuplicateObjects = (arr: ICustomTypeProp[]) => {};
 
 export const handleDuplicateKeysInCustomType = async (
   tracker: RestProjectTracker | GqlProjectTracker,
-  duplicates: string[]
+  duplicates: string[],
 ) => {
   console.log(
     chalk.redBright(
-      `The following duplicate property keys were found:\n${duplicates}`
+      `The following duplicate property keys were found:\n${duplicates.join(
+        ", "
+      )}`
     )
   );
   const { deleteOrRename } = await inquirer.prompt([
@@ -51,6 +55,7 @@ export const handleDuplicateKeysInCustomType = async (
   ]);
   switch (deleteOrRename) {
     case "Select duplicates to delete":
+      handleDuplicateCustomTypePropsDeletion(tracker, validateCustomTypeBeforeCreation);
       break;
     case "Select duplicates to rename":
       break;

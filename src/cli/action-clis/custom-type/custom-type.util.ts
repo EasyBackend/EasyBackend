@@ -1,6 +1,7 @@
 import inquirer from "inquirer";
 import {
   customTypeQuestons,
+  deleteDuplicateValues,
   deleteFromListCLI,
   logAllValidTypes,
   ValidationRes,
@@ -157,6 +158,29 @@ export const handleCustomTypePropsDeletion = async (
   );
   printCustomTypeDetails(tracker);
   // confirm type creation
+  await confirmTypeCreation(tracker);
+  await navigationFunc(tracker);
+};
+export const handleDuplicateCustomTypePropsDeletion = async (
+  tracker: RestProjectTracker | GqlProjectTracker,
+  navigationFunc: Function
+) => {
+  // TODO: add comments for this function
+  let typeProperties: string[] = tracker.getFromStorage(
+    StorageType.typeCreationProps
+  );
+  console.log("typeProperties: ", typeProperties)
+  const keysAndTypes: ICustomTypeProp[] = getKeysAndTypes(typeProperties);
+  console.log("keysAndTypes: ", keysAndTypes)
+  const afterDeletion: ICustomTypeProp[] = await deleteDuplicateValues(keysAndTypes);
+  typeProperties = afterDeletion.map((prop: ICustomTypeProp) => {
+    return `${prop.key}: ${prop.type}`
+  })
+  tracker.addToStorage(
+    { as: StorageType.typeCreationProps, value: typeProperties },
+    true
+  );
+  printCustomTypeDetails(tracker);
   await confirmTypeCreation(tracker);
   await navigationFunc(tracker);
 };
