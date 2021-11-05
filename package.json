@@ -55,7 +55,7 @@
     "typescript": "^4.4.2"
   },
   "bin": {
-    "@korenezri/easy-backend": "bin/eb-create-server",
+    "@korenezri/easy-backend": "./src/bin/eb-create-server",
     "eb-init-cli": "./src/bin/eb-init-cli",
     "eb-create-server": "./src/bin/eb-create-server"
   },

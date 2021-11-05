@@ -3,14 +3,16 @@ import inquirer from "inquirer";
 
 import {
   promptForTypeName,
-  promptForTypeProps,
+  collectTypeProps,
   confirmTypeCreation,
   handleCustomTypePropsDeletion,
-  printCustomTypeDetails,
+  handleCustomTypeCreation,
 } from "./custom-type.util";
 import { GqlProjectTracker, RestProjectTracker } from "../../../utils";
 import { customTypeQuestons, getTracker } from "../../cli-utils";
 import Logger from "../../../logger/logger";
+import { StorageType } from "../../../types";
+import { validateCustomTypeBeforeCreation } from "../input-validations";
 
 export const customType = async (
   tracker?: RestProjectTracker | GqlProjectTracker
@@ -21,30 +23,39 @@ export const customType = async (
     return;
   }
   await promptForTypeName(tracker); // ask the user for a type name
-  await promptForTypeProps(tracker); // ask the user for type properties
-  printCustomTypeDetails(tracker); // print the details of the custom type for the user
-  await confirmTypeCreation(tracker);
-  process.removeAllListeners();
+  await collectTypeProps(tracker); // ask the user for type properties
   await navigateFromConfirm(tracker);
 };
 
 const navigateFromConfirm = async (
   tracker: RestProjectTracker | GqlProjectTracker
 ) => {
-  const confirmType = tracker.getFromStorage("confirmTypeCreation");
+  process.removeAllListeners(); // avoid memory leaks
+  await confirmTypeCreation(tracker); // confirm if it's OK or not
+  const confirmType = tracker.getFromStorage(StorageType.confirmTypeCreation); // check confirm
   if (confirmType) {
+    // ? if "OK", validate custom type
+    await validateCustomTypeBeforeCreation(tracker);
+    // ? if validated, create the custom type.
+    await handleCustomTypeCreation(tracker, navigateFromConfirm);
   } else {
-    const { notOK } = await inquirer.prompt([customTypeQuestons.typeNotOK]);
+    // if user answered 'NO":
+    const { notOK } = await inquirer.prompt([customTypeQuestons.typeNotOK]); // asks user what they want to do. options are:
+    // [Delete properties, Add more properties, Edit properties, default-"none"]
     switch (notOK) {
-      case "Delete properties":
-        process.removeAllListeners();
-        await handleCustomTypePropsDeletion(tracker, navigateFromConfirm);
+      case "Delete properties": // TODO: BUG: When deleting properties, the "Is this OK?" question pops up twice.
+        tracker.setHistory(navigateFromConfirm);
+        // do the requested action then return user to this point in history - navigateFromConfirm()
+        await handleCustomTypePropsDeletion(tracker, navigateFromConfirm); // user can delete props
         break;
       case "Add more properties":
-        process.removeAllListeners();
+        tracker.setHistory(navigateFromConfirm);
+        // do the requested action then return user to this point in history - navigateFromConfirm()
+        await collectTypeProps(tracker, true); // ask the user for type properties
         break;
       case "Edit properties":
-        process.removeAllListeners();
+        tracker.setHistory(navigateFromConfirm);
+        // do the requested action then return user to this point in history - navigateFromConfirm()
         break;
       case "none":
         break;

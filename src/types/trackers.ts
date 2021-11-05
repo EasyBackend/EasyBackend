@@ -4,9 +4,16 @@ export type Types = "N/A" | string[];
 export type Language = "typescript" | "javascript";
 export type Implementaion = "gql" | "rest";
 
+interface IAllowedTypes {
+  arrayTypes: string[];
+  primitiveTypes: string[];
+  objectTypes: string[];
+  customTypes: string[];
+}
 interface IBaseConfig {
   opts: Omit<IMainOptions, "databaseUri">;
   plugins: string[];
+  allowedTypes: IAllowedTypes;
 }
 
 export interface IGqlConfig extends IBaseConfig {
@@ -29,11 +36,6 @@ export interface IDB {
 
 export interface IGQLTracker {
   config: IGqlConfig;
-}
-
-export interface ITrackerStorage {
-  as: string;
-  value: any;
 }
 
 export interface ITrackerHistory {

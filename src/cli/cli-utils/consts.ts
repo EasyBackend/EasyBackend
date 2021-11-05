@@ -46,7 +46,7 @@ export const questions: IQuestion[] = [
   },
   {
     type: "list",
-    name: "restGQL",
+    name: "implementation",
     message:
       "Would you like to use GraphQL or build a Restful API? (default: Restful API)",
     choices: ["Restful API", "GraphQL"],
@@ -152,7 +152,7 @@ export const customTypeQuestons = {
   typeProp: {
     type: "input",
     name: "typeProp",
-    message: `Please enter a property in the form of 'name:type'\n ${chalk.bold.cyan(
+    message: `Please enter a property in the form of 'name:type', or leave empty to cancel.\n ${chalk.bold.cyan(
       "Property:"
     )}`,
   },
@@ -173,6 +173,17 @@ export const customTypeQuestons = {
     name: "notOK",
     message: "What do you want to do?",
     choices: ["Delete properties", "Add more properties", "Edit properties"],
+    default: "none",
+  },
+};
+
+export const customTypeValidationQuestions = {
+  duplicates: {
+    type: "list",
+    name: "deleteOrRename",
+    message:
+      "A single type cannot have duplicate properties. Do you want to delete or rename the duplicates?",
+    choices: ["Select duplicates to delete", "Select duplicates to rename"],
     default: "none",
   },
 };
