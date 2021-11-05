@@ -30,7 +30,7 @@
     "morgan": "^1.10.0",
     "ncp": "^2.0.0",
     "pkg-install": "^1.0.0",
-    "prettier": "^2.3.2",
+    "prettier": "^2.4.0",
     "esm": "^3.2.25",
     "ts-node": "^10.3.0",
     "winston": "^3.3.3"
