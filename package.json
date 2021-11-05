@@ -1,6 +1,6 @@
 {
   "name": "easybackend",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Why repeat the same actions every time you build a node.js server? Let Easy Backend do that for you.",
   "main": "build/index.js",
   "scripts": {
