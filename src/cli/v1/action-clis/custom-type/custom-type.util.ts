@@ -1,19 +1,19 @@
 import inquirer from "inquirer";
 import {
   customTypeQuestons,
-  deleteDuplicateValues,
   deleteFromListCLI,
   logAllValidTypes,
   ValidationRes,
 } from "../../cli-utils";
-import { GqlProjectTracker, RestProjectTracker } from "../../../utils";
+import { GqlProjectTracker, RestProjectTracker } from "../../../../utils";
 import chalk from "chalk";
 import {
   validateCustomTypeName,
   validateCustomTypeProp,
+  validateDuplicateKeys,
 } from "../input-validations";
-import Logger from "../../../logger/logger";
-import { ICustomTypeProp, StorageType } from "../../../types";
+import Logger from "../../../../logger/logger";
+import { ICustomTypeProp, StorageType } from "../../../../types";
 
 // prompt user for type name and save it to tracker storage
 export const promptForTypeName = async (
@@ -84,8 +84,13 @@ export const collectTypeProps = async (
       addMorePropertiesFlag = true;
       break;
     }
-    // add new prop to prop list
-    typeProperties.push(typeProp);
+    // add new prop to prop list - unless prop already exists in list, in which case print an error message and skip
+    if (
+      validateDuplicateKeys(typeProperties, typeProp) === ValidationRes.INVALID
+    )
+      Logger.error(
+        "Type property name already exists - no duplicate type props allowed, skipping.."
+      );
     // avoid memory leaks
     process.removeAllListeners();
     tracker.writeToBottomBar(
@@ -161,29 +166,6 @@ export const handleCustomTypePropsDeletion = async (
   await confirmTypeCreation(tracker);
   await navigationFunc(tracker);
 };
-export const handleDuplicateCustomTypePropsDeletion = async (
-  tracker: RestProjectTracker | GqlProjectTracker,
-  navigationFunc: Function
-) => {
-  // TODO: add comments for this function
-  let typeProperties: string[] = tracker.getFromStorage(
-    StorageType.typeCreationProps
-  );
-  console.log("typeProperties: ", typeProperties)
-  const keysAndTypes: ICustomTypeProp[] = getKeysAndTypes(typeProperties);
-  console.log("keysAndTypes: ", keysAndTypes)
-  const afterDeletion: ICustomTypeProp[] = await deleteDuplicateValues(keysAndTypes);
-  typeProperties = afterDeletion.map((prop: ICustomTypeProp) => {
-    return `${prop.key}: ${prop.type}`
-  })
-  tracker.addToStorage(
-    { as: StorageType.typeCreationProps, value: typeProperties },
-    true
-  );
-  printCustomTypeDetails(tracker);
-  await confirmTypeCreation(tracker);
-  await navigationFunc(tracker);
-};
 
 // take a string[] of strings that look like 'name:type' and return : ( { "key": string, "type": string }[] )
 export const getKeysAndTypes = (typeProps: string[]): ICustomTypeProp[] => {
@@ -202,5 +184,6 @@ export const handleCustomTypeCreation = async (
   tracker: RestProjectTracker | GqlProjectTracker,
   navigationFunc: Function
 ) => {
+  console.log("CREATED CUSTOM TYPE");
   const typeProps = tracker.getFromStorage(StorageType.typeCreationProps);
 };

@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 import inquirer from "inquirer";
-import { createProject } from "../create-project";
-import { questions } from "./cli-utils";
-import { parseArgs } from "./cli-utils";
+import { createProject } from "./create-project";
+import { createServerQuestions, parseArgs } from "../init.util";
 
 const promptForMissingOptions = async (options: {
   git: any;
@@ -18,7 +17,7 @@ const promptForMissingOptions = async (options: {
     };
   }
   if (!options.template) {
-    questions.push({
+    createServerQuestions.push({
       type: "list",
       name: "template",
       message: "Please choose which project template to use",
@@ -27,14 +26,14 @@ const promptForMissingOptions = async (options: {
     });
   }
   if (!options.git) {
-    questions.push({
+    createServerQuestions.push({
       type: "confirm",
       name: "git",
       message: "Initialize a git repository?",
       default: false,
     });
   }
-  const answers = await inquirer.prompt(questions);
+  const answers = await inquirer.prompt(createServerQuestions);
   return {
     ...options,
     template: options.template || answers.template,

@@ -1,14 +1,18 @@
 import chalk from "chalk";
-import { RestProjectTracker, GqlProjectTracker } from "../../utils";
+import { StorageType } from "../../../../../../types";
+import { RestProjectTracker, GqlProjectTracker } from "../../../../../../utils";
 
-export const printAsTable = (data: any[]) => {
-  // TODO: Get rid of this "any" ^^^^
-  console.table(
-    // TODO: get rid of this "any" vvvv
-    data.reduce((acc: any, { action, ...x }) => {
-      acc[action] = x;
-      return acc;
-    }, {})
+export const printCustomTypeDetails = (
+  tracker: RestProjectTracker | GqlProjectTracker
+) => {
+  const typeName = tracker.getFromStorage(StorageType.typeCreationName);
+  const typeProperties = tracker.getFromStorage(StorageType.typeCreationProps);
+  console.clear();
+  tracker.writeToBottomBar(
+    `${chalk.green("Type name: ")}${typeName}\n\n${chalk.yellow(
+      "Properties: "
+    )}${typeProperties.join(", ")}`,
+    true
   );
 };
 export const logAllValidTypes = (

@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { IQuestion } from "../../types";
+import { IQuestion } from "../../../types";
 const serverLevelChoices = [
   "Full: includes eslint, husky, commitlint, changelog, logger, and github workflows",
   "Medium: includes husky and logger",

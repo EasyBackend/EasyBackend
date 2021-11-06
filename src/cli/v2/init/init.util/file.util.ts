@@ -1,8 +1,8 @@
 import fs from "fs";
+import ncp from "ncp";
 import { promisify } from "util";
 
-import { IMainOptions } from "../types";
-import ncp from "ncp";
+import { IMainOptions } from "../../../.../../../types";
 
 const copy = promisify(ncp);
 const write = promisify(fs.writeFile);

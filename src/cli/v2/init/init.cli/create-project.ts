@@ -5,16 +5,10 @@ import path from "path";
 import { projectInstall } from "pkg-install";
 import Listr from "listr";
 
-import Logger from "./logger/logger";
-import { IMainOptions } from "./types";
-import {
-  copyTemplateFiles,
-  createError,
-  databaseSetup,
-  gqlTracker,
-  restTracker,
-} from "./utils";
-import { initGit } from "./cli/v1/cli-utils";
+import Logger from "../../../../logger/logger";
+import { IMainOptions } from "../../../../types";
+import { copyTemplateFiles, databaseSetup, initGit } from "../init.util";
+import { createError, gqlTracker, restTracker } from "../../../../utils";
 
 const access = promisify(fs.access);
 

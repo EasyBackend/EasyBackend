@@ -1,9 +1,6 @@
-import {
-  checkForSpecialChars,
-  getDuplicateKeys,
-  handleDuplicateKeysInCustomType,
-} from ".";
-import { ICustomTypeProp, StorageType } from "../../../types";
+import { checkForSpecialChars } from ".";
+import { ICustomTypeProp, StorageType } from "../../../../../../../types";
+
 import {
   RestProjectTracker,
   GqlProjectTracker,
@@ -65,10 +62,20 @@ export const validateCustomTypeBeforeCreation = async (
   // const allKeys = keysAndTypes.map((keyType) => keyType?.key);
   // check if there are duplicate keys for this type, and if there are, prompt the user to change them.
   // returns { validationRes: ValidationRes, duplicates: string[] }
-  const duplicates: string[] = getDuplicateKeys(
-    keysAndTypes
-  );
-  if (duplicates.length > 0) {
-    await handleDuplicateKeysInCustomType(tracker, duplicates);
-  }
+};
+export const checkForSpecialChars = (
+  string: string,
+  withSqrBrackets?: boolean
+) => {
+  const specialChars = withSqrBrackets
+    ? /[!@#$%^`&*()_+\-=\\{};':"\\|,.<>\/?1234567890]+/
+    : /[!@#$%^`&*()_+\-=\[\]{};':"\\|,.<>\/?1234567890]+/;
+  return specialChars.test(string) ? ValidationRes.INVALID : ValidationRes.OK;
+};
+
+export const validateDuplicateKeys = (props: string[], newProp: string) => {
+  const keysAndTypes: ICustomTypeProp[] = getKeysAndTypes(props);
+  const newPropKey = newProp.split(":")[0].trim();
+  const keys = keysAndTypes.map((customTypeProp) => customTypeProp.key);
+  return keys.includes(newPropKey) ? ValidationRes.INVALID : ValidationRes.OK;
 };

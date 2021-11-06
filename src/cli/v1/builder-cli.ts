@@ -8,7 +8,7 @@ import {
   printAsTable,
 } from "./cli-utils";
 import { customType, prebuiltActions } from "./action-clis";
-import { RestProjectTracker, GqlProjectTracker } from "../utils";
+import { RestProjectTracker, GqlProjectTracker } from "../../utils";
 import { getNavigation } from "./cli-utils/navigation";
 
 export const builder_cli = async (rawArgs: string[]) => {

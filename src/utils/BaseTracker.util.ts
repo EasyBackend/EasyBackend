@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 import { RestProjectTracker, GqlProjectTracker } from ".";
-import { longAssLine } from "../cli/cli-utils";
+import { longAssLine } from "../v1/cli-utils";
 import { ITrackerStorage, ITrackerHistory, StorageType } from "../types";
 
 export class BaseTracker {

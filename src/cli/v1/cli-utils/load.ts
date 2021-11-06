@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 import { promisify } from "util";
-import Logger from "../../logger/logger";
-import { restTracker, gqlTracker } from "../../utils";
+import Logger from "../../../logger/logger";
+import { restTracker, gqlTracker } from "../../../utils";
 
 const read = promisify(fs.readFile);
 const exists = promisify(fs.exists);

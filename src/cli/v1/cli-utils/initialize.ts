@@ -1,8 +1,8 @@
 import arg from "arg";
 import execa from "execa";
 
-import { IMainOptions } from "../../types";
-import Logger from "../../logger/logger";
+import { IMainOptions } from "../../../types";
+import Logger from "../../../logger/logger";
 
 export const initGit = async (options: Partial<IMainOptions>) => {
   const result = await execa("git", ["init"], {
