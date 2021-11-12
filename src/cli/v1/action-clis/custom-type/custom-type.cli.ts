@@ -8,10 +8,10 @@ import {
   handleCustomTypePropsDeletion,
   handleCustomTypeCreation,
 } from "./custom-type.util";
-import { GqlProjectTracker, RestProjectTracker } from "../../../utils";
+import { GqlProjectTracker, RestProjectTracker } from "../../../../utils";
 import { customTypeQuestons, getTracker } from "../../cli-utils";
-import Logger from "../../../logger/logger";
-import { StorageType } from "../../../types";
+import Logger from "../../../../logger/logger";
+import { StorageType } from "../../../../types";
 import { validateCustomTypeBeforeCreation } from "../input-validations";
 
 export const customType = async (

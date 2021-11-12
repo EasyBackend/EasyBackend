@@ -1,10 +1,10 @@
 import { checkForSpecialChars } from ".";
-import { ICustomTypeProp, StorageType } from "../../../types";
+import { ICustomTypeProp, StorageType } from "../../../../types";
 import {
   RestProjectTracker,
   GqlProjectTracker,
   getAllAllowedTypes,
-} from "../../../utils";
+} from "../../../../utils";
 import { ValidationRes } from "../../cli-utils";
 import { getKeysAndTypes } from "../custom-type/custom-type.util";
 

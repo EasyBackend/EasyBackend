@@ -8,7 +8,7 @@ import Listr from "listr";
 import Logger from "../../../../logger/logger";
 import { IMainOptions } from "../../../../types";
 import { copyTemplateFiles, databaseSetup, initGit } from "../init.util";
-import { createError, gqlTracker, restTracker } from "../../../../utils";
+import { gqlTracker, restTracker } from "../../../../utils";
 
 const access = promisify(fs.access);
 
@@ -17,15 +17,14 @@ export const createProject = async (options: Partial<IMainOptions>) => {
   const { template, implementation } = options;
   const restfulOrGQL = implementation === "Restful API" ? "rest" : "gql"; // restful or graph ql
   const currentFileUrl = import.meta.url; // current file url helps us get the template's directory path
-
   if (!template) {
-    createError(`${chalk.red.bold("ERROR")}, Invalid template name`); // no template no money
+    Logger.error(`Invalid template name`); // no template no money
     return;
   }
   const templateDir = path
     .resolve(
       new URL(currentFileUrl).pathname,
-      `./templates/${restfulOrGQL}`, // pick templates from either gql folder or restfulAPI folder.
+      `../../../../../../templates/${restfulOrGQL}`, // pick templates from either gql folder or restfulAPI folder.
       template.toLowerCase()
     )
     .slice(3)
@@ -37,14 +36,11 @@ export const createProject = async (options: Partial<IMainOptions>) => {
     targetDirectory,
     templateDirectory: templateDir,
   };
-
   try {
     await access(templateDir, fs.constants.R_OK);
   } catch ({ message }) {
     // makes sure folder is there
-    Logger.error(
-      `${chalk.red.bold("ERROR")}, Invalid template name, ${message}`
-    );
+    Logger.error(`Invalid template name, ${message}`); // no template no money
     process.exit(1);
   }
 

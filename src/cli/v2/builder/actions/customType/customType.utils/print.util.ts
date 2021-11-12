@@ -7,7 +7,7 @@ export const printCustomTypeDetails = (
 ) => {
   const typeName = tracker.getFromStorage(StorageType.typeCreationName);
   const typeProperties = tracker.getFromStorage(StorageType.typeCreationProps);
-  console.clear();
+  // console.clear();
   tracker.writeToBottomBar(
     `${chalk.green("Type name: ")}${typeName}\n\n${chalk.yellow(
       "Properties: "

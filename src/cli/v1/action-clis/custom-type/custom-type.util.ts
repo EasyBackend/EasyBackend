@@ -25,7 +25,7 @@ export const promptForTypeName = async (
   const validationRes = validateCustomTypeName(tracker, typeName);
   validationRes === ValidationRes.OK
     ? tracker.addToStorage({
-        as: StorageType.typeCreationName,
+        key: StorageType.typeCreationName,
         value: typeName,
       })
     : await promptForTypeName(tracker, true);
@@ -78,7 +78,7 @@ export const collectTypeProps = async (
     const { abort, typeProp } = await promptForTypeProp(tracker);
     if (abort) {
       tracker.addToStorage({
-        as: StorageType.typeCreationProps,
+        key: StorageType.typeCreationProps,
         value: typeProperties,
       });
       addMorePropertiesFlag = true;
@@ -107,7 +107,7 @@ export const collectTypeProps = async (
   }
   // save current prop list in storage.
   tracker.addToStorage({
-    as: StorageType.typeCreationProps,
+    key: StorageType.typeCreationProps,
     value: typeProperties,
   });
   if (fromHistory) {
@@ -139,7 +139,7 @@ export const confirmTypeCreation = async (
     customTypeQuestons.confirmType,
   ]);
   tracker.addToStorage(
-    { as: StorageType.confirmTypeCreation, value: confirmType },
+    { key: StorageType.confirmTypeCreation, value: confirmType },
     true
   );
 };
@@ -158,7 +158,7 @@ export const handleCustomTypePropsDeletion = async (
   const afterDeletion: string[] = await deleteFromListCLI(typeProperties);
   // save props to storage, replace old props in storage
   tracker.addToStorage(
-    { as: StorageType.typeCreationProps, value: afterDeletion },
+    { key: StorageType.typeCreationProps, value: afterDeletion },
     true
   );
   printCustomTypeDetails(tracker);

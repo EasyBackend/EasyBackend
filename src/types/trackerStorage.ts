@@ -4,6 +4,6 @@ export enum StorageType {
   confirmTypeCreation = "confirmTypeCreation",
 }
 export interface ITrackerStorage {
-  as: StorageType;
+  key: StorageType;
   value: any;
 }

@@ -4,7 +4,7 @@ import inquirer from "inquirer";
 import { printCustomTypeDetails } from ".";
 import { StorageType } from "../../../../../../types";
 import { RestProjectTracker, GqlProjectTracker } from "../../../../../../utils";
-import { confirmTypeCreation } from "./custom-type.util";
+import { confirmTypeCreationWithUser } from "../customType.utils";
 
 // @navigationFunc is for returning the user to the appropriate point in the flow
 export const handleCustomTypePropsDeletion = async (
@@ -19,12 +19,12 @@ export const handleCustomTypePropsDeletion = async (
   const afterDeletion: string[] = await deleteFromListCLI(typeProperties);
   // save props to storage, replace old props in storage
   tracker.addToStorage(
-    { as: StorageType.typeCreationProps, value: afterDeletion },
+    { key: StorageType.typeCreationProps, value: afterDeletion },
     true
   );
   printCustomTypeDetails(tracker);
   // confirm type creation
-  await confirmTypeCreation(tracker);
+  await confirmTypeCreationWithUser(tracker);
   await navigationFunc(tracker);
 };
 
