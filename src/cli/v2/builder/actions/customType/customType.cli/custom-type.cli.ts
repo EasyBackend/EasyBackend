@@ -12,7 +12,6 @@ import {
   promptForTypeName,
   collectTypePropsFromUser,
   confirmWithUserAndNavigate,
-  confirmTypeCreationWithUser,
 } from "../customType.utils";
 
 export const createCustomType = async (
