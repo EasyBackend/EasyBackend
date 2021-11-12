@@ -1,23 +1,11 @@
 import chalk from "chalk";
 import inquirer from "inquirer";
 
-import Logger from "../../../../../../../logger/logger";
-import {
-  promptForTypePropReturn,
-  StorageType,
-} from "../../../../../../../types";
+import { StorageType } from "../../../../../../../types";
 import {
   RestProjectTracker,
   GqlProjectTracker,
-  ValidationRes,
 } from "../../../../../../../utils";
-
-import { validateCustomTypeProp } from "../../customType.validations/input-validations";
-import {
-  confirmTypeCreationWithUser,
-  customTypeQuestions,
-  logAllValidTypes,
-} from "..";
 
 const editPropsQuestions = {
   edit: (props: string[]) => {
