@@ -13,6 +13,7 @@ import {
 } from "..";
 import { handleCustomTypeCreation } from "../../customType.cli";
 import { collectTypePropsFromUser } from "./collectProps.prompt";
+import { editTypePropsWithUser } from "./editProps.prompt";
 
 export const confirmWithUserAndNavigate = async (
   tracker: RestProjectTracker | GqlProjectTracker,
@@ -26,19 +27,18 @@ export const confirmWithUserAndNavigate = async (
     await handleCustomTypeCreation(tracker);
   } else {
     const { notOK } = await inquirer.prompt([customTypeQuestions.typeNotOK]);
+    tracker.setHistory(confirmWithUserAndNavigate);
     // [Delete properties, Add more properties, Edit properties, default-"none"]
     switch (notOK) {
       // do the requested action then return user to this point in history
       case "Delete properties": // TODO: BUG: When deleting properties, the "Is this OK?" question pops up twice.
-        tracker.setHistory(confirmWithUserAndNavigate);
         await handleCustomTypePropsDeletion(tracker);
         break;
       case "Add more properties":
-        tracker.setHistory(confirmWithUserAndNavigate);
         await collectTypePropsFromUser(tracker, true);
         break;
       case "Edit properties":
-        tracker.setHistory(confirmWithUserAndNavigate);
+        await editTypePropsWithUser(tracker);
         break;
       case "none":
         break;

@@ -15,6 +15,7 @@ export const printCustomTypeDetails = (
     true
   );
 };
+
 export const logAllValidTypes = (
   tracker: RestProjectTracker | GqlProjectTracker,
   typeProperties: string[]

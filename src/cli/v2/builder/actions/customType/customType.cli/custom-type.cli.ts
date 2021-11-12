@@ -26,8 +26,7 @@ export const createCustomType = async (
   await collectTypePropsFromUser(tracker);
   await confirmWithUserAndNavigate(tracker);
 };
-// If the custom type is valid, create it.
-// @navigationFunc to return the user to the correct place in case of error.
+
 export const handleCustomTypeCreation = async (
   tracker: RestProjectTracker | GqlProjectTracker
 ) => {
