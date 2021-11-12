@@ -25,20 +25,31 @@ export const collectTypePropsFromUser = async (
     invalid?: boolean
   ): Promise<promptForTypePropReturn> => {
     let abort: boolean = false;
+
     if (invalid)
       Logger.error(
         "Invalid type prop entered, please try again or leave blank to abort."
       );
+
     const { typeProp } = await inquirer.prompt([customTypeQuestions.typeProp]);
+
     if (!typeProp || typeProp.length === 0) {
+
       abort = true;
+
       return { abort, typeProp };
     }
+
     const isPropertyValid = validateCustomTypeProp(tracker, typeProp);
+
     if (isPropertyValid.valid === ValidationRes.INVALID) {
+
       Logger.error(isPropertyValid.message);
+
       return promptForTypeProp(tracker, true);
+
     } else {
+      
       return { abort, typeProp };
     }
   };

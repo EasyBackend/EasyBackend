@@ -23,6 +23,7 @@ export const validateCustomTypeName = (
     ? ValidationRes.INVALID
     : ValidationRes.OK;
 };
+
 export const validateCustomTypeProp = (
   tracker: RestProjectTracker | GqlProjectTracker,
   type: string
