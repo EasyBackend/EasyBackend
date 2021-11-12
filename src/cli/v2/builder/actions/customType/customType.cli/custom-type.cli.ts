@@ -10,8 +10,8 @@ import {
 
 import {
   promptForTypeName,
-  collectTypeProps,
-  navigateFromConfirm,
+  collectTypePropsFromUser,
+  confirmWithUserAndNavigate,
   confirmTypeCreationWithUser,
 } from "../customType.utils";
 
@@ -23,11 +23,9 @@ export const createCustomType = async (
     Logger.error(`No tracker found, aborting..`);
     return;
   }
-  await promptForTypeName(tracker); // ask the user for a type name
-  await collectTypeProps(tracker); // ask the user for type properties
-  process.removeAllListeners();
-  await confirmTypeCreationWithUser(tracker);
-  await navigateFromConfirm(tracker);
+  await promptForTypeName(tracker);
+  await collectTypePropsFromUser(tracker);
+  await confirmWithUserAndNavigate(tracker);
 };
 // If the custom type is valid, create it.
 // @navigationFunc to return the user to the correct place in case of error.

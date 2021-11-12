@@ -37,25 +37,50 @@ export const promptForTypeName = async (
 };
 
 // ? this calls promptForTypeProp() and more to collect a string[] of all the type props for the user.
-export const collectTypeProps = async (
+export const collectTypePropsFromUser = async (
   tracker: RestProjectTracker | GqlProjectTracker,
   fromHistory?: boolean
 ) => {
-  // the type properties as an array of "name: type" strings.
+  const promptForTypeProp = async (
+    tracker: RestProjectTracker | GqlProjectTracker,
+    invalid?: boolean
+  ): Promise<promptForTypePropReturn> => {
+    let abort: boolean = false;
+    if (invalid)
+      Logger.error(
+        "Invalid type prop entered, please try again or leave blank to abort."
+      );
+    const { typeProp } = await inquirer.prompt([customTypeQuestions.typeProp]);
+    if (!typeProp || typeProp.length === 0) {
+      abort = true;
+      return { abort, typeProp };
+    }
+    const isPropertyValid = validateCustomTypeProp(tracker, typeProp);
+    if (isPropertyValid.valid === ValidationRes.INVALID) {
+      Logger.error(isPropertyValid.message);
+      return promptForTypeProp(tracker, true);
+    } else {
+      return { abort, typeProp };
+    }
+  };
+
   let typeProperties: string[] = [];
-  // get typeProps from storage, if there are any..
+
   const trackerStorageProps = tracker.getFromStorage(
     StorageType.typeCreationProps
   );
-  // if storage does have typeprops: load them to variable typeProperties
+
   if (trackerStorageProps && trackerStorageProps.length) {
     typeProperties = trackerStorageProps;
   }
-  // while false, keep asking for props.
+
   let addMorePropertiesFlag = false;
+
   while (addMorePropertiesFlag === false) {
     logAllValidTypes(tracker, typeProperties);
+
     const { abort, typeProp } = await promptForTypeProp(tracker);
+
     if (abort) {
       tracker.addToStorage({
         key: StorageType.typeCreationProps,
@@ -64,24 +89,25 @@ export const collectTypeProps = async (
       addMorePropertiesFlag = true;
       break;
     }
+
     typeProperties.push(typeProp);
-    // save current prop list in storage.
+
     tracker.addToStorage({
       key: StorageType.typeCreationProps,
       value: typeProperties,
     });
-    // avoid memory leaks
+
     process.removeAllListeners();
+
     tracker.writeToBottomBar(
-      // show user list of props
       `${chalk.green(`Properties:`)} ${typeProperties.join(", ")}`,
       true
     );
+
     const { moreProps } = await inquirer.prompt([
-      // ask the user if they want to add more props.
       customTypeQuestions.morePropsQuestions,
     ]);
-    // if not, switch the flag and exit the while loop.
+
     if (!moreProps) addMorePropertiesFlag = true;
   }
   if (fromHistory) {
@@ -90,32 +116,13 @@ export const collectTypeProps = async (
     tracker.history.goBack(tracker);
   }
 };
-const promptForTypeProp = async (
-  tracker: RestProjectTracker | GqlProjectTracker,
-  invalid?: boolean
-): Promise<promptForTypePropReturn> => {
-  let abort: boolean = false;
-  if (invalid)
-    Logger.error(
-      "Invalid type prop entered, please try again or leave blank to abort."
-    );
-  const { typeProp } = await inquirer.prompt([customTypeQuestions.typeProp]);
-  if (!typeProp || typeProp.length === 0) {
-    abort = true;
-    return { abort, typeProp };
-  }
-  const isPropertyValid = validateCustomTypeProp(tracker, typeProp);
-  if (isPropertyValid.valid === ValidationRes.INVALID) {
-    Logger.error(isPropertyValid.message);
-    return promptForTypeProp(tracker, true);
-  } else {
-    return { abort, typeProp };
-  }
-};
 
-export const navigateFromConfirm = async (
-  tracker: RestProjectTracker | GqlProjectTracker
+export const confirmWithUserAndNavigate = async (
+  tracker: RestProjectTracker | GqlProjectTracker,
+  skipConfirm?: boolean
 ) => {
+  process.removeAllListeners();
+  if (!skipConfirm) await confirmTypeCreationWithUser(tracker);
   const confirmType = tracker.getFromStorage(StorageType.confirmTypeCreation);
   if (confirmType) {
     await validateCustomTypeBeforeCreation(tracker);
@@ -126,15 +133,15 @@ export const navigateFromConfirm = async (
     switch (notOK) {
       // do the requested action then return user to this point in history
       case "Delete properties": // TODO: BUG: When deleting properties, the "Is this OK?" question pops up twice.
-        tracker.setHistory(navigateFromConfirm);
-        await handleCustomTypePropsDeletion(tracker, navigateFromConfirm);
+        tracker.setHistory(confirmWithUserAndNavigate);
+        await handleCustomTypePropsDeletion(tracker);
         break;
       case "Add more properties":
-        tracker.setHistory(navigateFromConfirm);
-        await collectTypeProps(tracker, true);
+        tracker.setHistory(confirmWithUserAndNavigate);
+        await collectTypePropsFromUser(tracker, true);
         break;
       case "Edit properties":
-        tracker.setHistory(navigateFromConfirm);
+        tracker.setHistory(confirmWithUserAndNavigate);
         break;
       case "none":
         break;
