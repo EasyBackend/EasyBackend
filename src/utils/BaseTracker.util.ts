@@ -61,7 +61,7 @@ export class BaseTracker {
   }
 }
 
-export const getAllAllowedTypes = (
+export const getAllAllowedTypesFromTracker = (
   tracker: RestProjectTracker | GqlProjectTracker
 ) => {
   const { arrayTypes, objectTypes, primitiveTypes, customTypes } =

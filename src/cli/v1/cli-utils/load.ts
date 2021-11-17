@@ -7,7 +7,7 @@ import { restTracker, gqlTracker } from "../../../utils";
 const read = promisify(fs.readFile);
 const exists = promisify(fs.exists);
 
-const loadProjectTrackerData = async () => {
+const loadProjectTrackerDataFromConfigFile = async () => {
   // TODO: Make this function able to run though folders backwards until it finds the root folder.
   const currentFileUrl = process.cwd();
   const configFileUrl = path.join(`${currentFileUrl}`, "eb.json");
@@ -17,7 +17,7 @@ const loadProjectTrackerData = async () => {
   return config;
 };
 export const getTracker = async () => {
-  const rawProjectData = await loadProjectTrackerData();
+  const rawProjectData = await loadProjectTrackerDataFromConfigFile();
   if (!rawProjectData) {
     Logger.error(
       "Could not load project config file, aborting (load.ts, getTracker())"

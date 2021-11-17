@@ -34,22 +34,18 @@ export const collectTypePropsFromUser = async (
     const { typeProp } = await inquirer.prompt([customTypeQuestions.typeProp]);
 
     if (!typeProp || typeProp.length === 0) {
-
       abort = true;
 
       return { abort, typeProp };
     }
 
-    const isPropertyValid = validateCustomTypeProp(tracker, typeProp);
+    const { isValid, message } = validateCustomTypeProp(tracker, typeProp);
 
-    if (isPropertyValid.valid === ValidationRes.INVALID) {
-
-      Logger.error(isPropertyValid.message);
+    if (isValid === ValidationRes.INVALID) {
+      Logger.error(message);
 
       return promptForTypeProp(tracker, true);
-
     } else {
-      
       return { abort, typeProp };
     }
   };

@@ -17,8 +17,12 @@ export const promptForTypeName = async (
 ) => {
   // if user enters an invalid type name it becomes recursive and asks the user for a type name again
   if (invalid) Logger.error("Invalid type name, please try again.");
+
   const { typeName } = await inquirer.prompt([customTypeQuestions.typeName]);
-  validateCustomTypeName(tracker, typeName) === ValidationRes.OK
+
+  const { isValid } = await validateCustomTypeName(typeName, tracker);
+
+  isValid === ValidationRes.VALID
     ? tracker.addToStorage({
         key: StorageType.typeCreationName,
         value: typeName,

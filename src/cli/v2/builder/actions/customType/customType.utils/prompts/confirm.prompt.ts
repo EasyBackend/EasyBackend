@@ -5,7 +5,6 @@ import {
   RestProjectTracker,
   GqlProjectTracker,
 } from "../../../../../../../utils";
-import { validateCustomTypeBeforeCreation } from "../../customType.validations/input-validations";
 import {
   customTypeQuestions,
   handleCustomTypePropsDeletion,
@@ -23,7 +22,6 @@ export const confirmWithUserAndNavigate = async (
   if (!skipConfirm) await confirmTypeCreationWithUser(tracker);
   const confirmType = tracker.getFromStorage(StorageType.confirmTypeCreation);
   if (confirmType) {
-    await validateCustomTypeBeforeCreation(tracker);
     await handleCustomTypeCreation(tracker);
   } else {
     const { notOK } = await inquirer.prompt([customTypeQuestions.typeNotOK]);

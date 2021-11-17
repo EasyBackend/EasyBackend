@@ -3,7 +3,7 @@ import { ICustomTypeProp, StorageType } from "../../../../types";
 import {
   RestProjectTracker,
   GqlProjectTracker,
-  getAllAllowedTypes,
+  getAllAllowedTypesFromTracker,
 } from "../../../../utils";
 import { ValidationRes } from "../../cli-utils";
 import { getKeysAndTypes } from "../custom-type/custom-type.util";
@@ -12,7 +12,7 @@ export const validateCustomTypeName = (
   tracker: RestProjectTracker | GqlProjectTracker,
   typeName: string
 ) => {
-  const allowedTypes: string[] = getAllAllowedTypes(tracker);
+  const allowedTypes: string[] = getAllAllowedTypesFromTracker(tracker);
   if (
     !typeName ||
     typeName.length === 0 ||
@@ -41,7 +41,7 @@ export const validateCustomTypeProp = (
   ) {
     return ValidationRes.INVALID;
   }
-  const validTypes = getAllAllowedTypes(tracker);
+  const validTypes = getAllAllowedTypesFromTracker(tracker);
   return validTypes.includes(typing) ? ValidationRes.OK : ValidationRes.INVALID;
 };
 
