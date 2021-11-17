@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 100
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@master
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@main
         with:
           node-version: "12.x"
           registry-url: "https://registry.npmjs.org"
