@@ -121,7 +121,7 @@ const checkForSpecialChars = (
       : /[!@#$%^`&*()_+\-=\[\]{};':"\\|,.<>\/?1234567890]+/;
 
     if (specialChars.test(string)) {
-      errors.push(`Error - special characters are not allowed: ${string}`);
+      errors.push(`special characters are not allowed: ${string}`);
     }
   }
 
@@ -135,9 +135,8 @@ export const validateDuplicateKeys = (
   newProp?: string
 ): { isValid: ValidationRes; message?: string } => {
   const keysAndTypes: ICustomTypeProp[] = getKeysAndTypes(props);
-  const newPropKey = newProp?.split(":")[0].trim();
-
   const keys = keysAndTypes.map((customTypeProp) => customTypeProp.key);
+  const newPropKey = newProp?.split(":")[0].trim();
 
   if (newPropKey)
     return keys.includes(newPropKey)
@@ -168,9 +167,14 @@ export const validateCustomTypeBeforeCreation = async (
 ): Promise<{ isValid: ValidationRes; message?: string | string[] }> => {
   const { typeProps, typeName } = customTypeCreationParams;
 
+  const keysAndTypes: ICustomTypeProp[] = getKeysAndTypes(typeProps);
+  const keys = keysAndTypes.map((customTypeProp) => customTypeProp.key);
+  const types = keysAndTypes.map((customTypeProp) => customTypeProp.type);
+
   const duplicateKeysValid = validateDuplicateKeys(typeProps);
   const typeNameValid = await validateCustomTypeName(typeName);
-  const typePropsSpecialCharsValid = checkForSpecialChars(typeProps);
+  const typePropsSpecialCharsKeysValid = checkForSpecialChars(keys);
+  const typePropsSpecialCharsTypesValid = checkForSpecialChars(types, true);
 
   if (duplicateKeysValid.isValid !== ValidationRes.VALID) {
     return {
@@ -186,10 +190,17 @@ export const validateCustomTypeBeforeCreation = async (
     };
   }
 
-  if (typePropsSpecialCharsValid.isValid !== ValidationRes.VALID) {
+  if (typePropsSpecialCharsKeysValid.isValid !== ValidationRes.VALID) {
     return {
       isValid: ValidationRes.INVALID,
-      message: typePropsSpecialCharsValid.message,
+      message: typePropsSpecialCharsKeysValid.message,
+    };
+  }
+
+  if (typePropsSpecialCharsTypesValid.isValid !== ValidationRes.VALID) {
+    return {
+      isValid: ValidationRes.INVALID,
+      message: typePropsSpecialCharsTypesValid.message,
     };
   }
 

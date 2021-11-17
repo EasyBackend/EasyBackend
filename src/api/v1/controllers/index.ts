@@ -1,1 +1,1 @@
-export * from "./create/customType";
+export { createCustomType, createCustomTypeFromAPI } from "./create/customType";
