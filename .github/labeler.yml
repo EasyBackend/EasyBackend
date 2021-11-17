@@ -2,6 +2,14 @@ utils:
   - src/utils/**/*
 cli-utils:
   - src/cli/cli-utils/**/*
+apiv1:
+  - src/api/v1/**/*
+apiv1-controllers:
+  - src/api/v1/controllers/**/*
+apiv1-routes:
+  - src/api/v1/routes/**/*
+db:
+  - src/db/**/*
 types:
   - src/types/**/*
 initial-cli:

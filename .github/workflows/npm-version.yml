@@ -37,9 +37,6 @@ jobs:
       - name: Automated Version Bump
         run: npm run release
 
-      - name: Publish tags
-        run: git push --follow-tags origin main
-
       - name: Publish to npm
         run: npm publish
         env:
