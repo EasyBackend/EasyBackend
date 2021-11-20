@@ -60,7 +60,6 @@ export const createProject = async (options: Partial<IMainOptions>) => {
       enabled: () => options.git || false,
     },
     {
-      // TODO: When at home, add a package.json to the template folders, so dependencies are installed.
       title: "Install dependencies",
       task: () =>
         projectInstall({

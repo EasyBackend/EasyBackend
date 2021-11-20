@@ -2,7 +2,7 @@
 import Logger from "../../../../../../logger/logger";
 import { StorageType } from "../../../../../../types";
 
-import { createCustomType } from "../../../../../../api/v1/controllers";
+import { createCustomType } from "../../../../../../controllers";
 
 import {
   GqlProjectTracker,

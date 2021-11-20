@@ -5,6 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "start": "node ./src/bin/eb-create-server",
+    "eb:server": "ts-node ./src/api/index.ts",
     "eb": "node ./src/bin/eb-init-cli",
     "delexample": "rimraf ./example",
     "test": "",
@@ -60,14 +61,12 @@
   "bin": {
     "@korenezri/easy-backend": "./src/bin/eb-create-server",
     "eb-init-cli": "./src/bin/eb-init-cli",
-    "eb-create-server": "./src/bin/eb-create-server"
+    "eb-create-server": "./src/bin/eb-create-server",
+    "eb-launch-server": "./src/bin/eb-launch-server"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "files": [
-    "src/build/**/*"
-  ]
+  }
 }

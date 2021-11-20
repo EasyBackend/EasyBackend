@@ -29,7 +29,7 @@ export const confirmWithUserAndNavigate = async (
     // [Delete properties, Add more properties, Edit properties, default-"none"]
     switch (notOK) {
       // do the requested action then return user to this point in history
-      case "Delete properties": // TODO: BUG: When deleting properties, the "Is this OK?" question pops up twice.
+      case "Delete properties":
         await handleCustomTypePropsDeletion(tracker);
         break;
       case "Add more properties":
