@@ -1,6 +1,7 @@
 export enum DatabaseStorageType {
   schemaName = "schemaName",
   schemaProps = "schemaProps",
+  requiredProps = "requiredProps",
   confirmSchemaCreation = "confirmSchemaCreation",
   uniqueProperty = "uniqueProperty",
 }

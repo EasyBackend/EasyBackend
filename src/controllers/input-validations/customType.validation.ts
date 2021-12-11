@@ -1,11 +1,11 @@
 import { format } from "logform";
-import Logger from "../../../../../../../logger/logger";
+import Logger from "../../logger/logger";
 
 import {
   ICustomTypeCreationParams,
   ICustomTypeProp,
   InterfaceStorageType,
-} from "../../../../../../../types";
+} from "../../types";
 
 import {
   RestProjectTracker,
@@ -13,8 +13,8 @@ import {
   getAllAllowedTypesFromTracker,
   ValidationRes,
   getTracker,
-} from "../../../../../../../utils";
-import { getKeysAndTypes } from "../../customType.utils";
+} from "../../utils";
+import { getKeysAndTypes } from "../../cli/v2/builder/actions/customType/customType.utils";
 
 export const validateCustomTypeName = async (
   typeName: string,

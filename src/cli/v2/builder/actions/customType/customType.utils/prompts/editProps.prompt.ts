@@ -8,7 +8,7 @@ import {
   GqlProjectTracker,
   ValidationRes,
 } from "../../../../../../../utils";
-import { validateCustomTypeProp } from "../../customType.validations/input-validations";
+import { validateCustomTypeProp } from "../../../../../../../controllers/input-validations";
 
 const editPropsQuestions = {
   edit: (props: string[]) => {

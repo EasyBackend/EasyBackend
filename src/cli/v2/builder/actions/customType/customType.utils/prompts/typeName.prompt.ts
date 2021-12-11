@@ -8,7 +8,7 @@ import {
   ValidationRes,
 } from "../../../../../../../utils";
 
-import { validateCustomTypeName } from "../../customType.validations/input-validations";
+import { validateCustomTypeName } from "../../../../../../../controllers/input-validations";
 import { customTypeQuestions } from "..";
 
 export const promptForTypeName = async (

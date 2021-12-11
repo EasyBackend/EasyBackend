@@ -1,6 +1,6 @@
 import Logger from "../../../logger/logger";
 import { ICustomTypeCreationParams } from "../../../types";
-import { validateCustomTypeBeforeCreation } from "../../../cli/v2/builder/actions/customType/customType.validations/input-validations";
+import { validateCustomTypeBeforeCreation } from "../../input-validations";
 import { ValidationRes } from "../../../utils";
 import { createTextInterface } from "./customType.util";
 
@@ -12,28 +12,30 @@ import { createTextInterface } from "./customType.util";
 } 
  */
 export const createCustomType = async (
-  customTypePropParams: ICustomTypeCreationParams
+  customTypeParams: ICustomTypeCreationParams
 ) => {
   const { isValid, message } = await validateCustomTypeBeforeCreation(
-    customTypePropParams
+    customTypeParams
   );
   if (isValid === ValidationRes.VALID) {
-    await doCreateCustomType(customTypePropParams);
+    await doCreateCustomType(customTypeParams);
   } else {
     Array.isArray(message)
       ? message.forEach((message) => {
           Logger.error(message);
         })
       : Logger.error(message);
+    throw Error("Error creating custom type");
+    // TODO: error handling
   }
 };
 
-const doCreateCustomType = async ({
-  typeProps,
-  typeName,
-  dbSchema,
-}: ICustomTypeCreationParams) => {
-  const textInterface = createTextInterface({ typeProps, typeName });
-  // imhere in creating a DB schema
-  const textDBSchema = dbSchema ? {} : null;
+const doCreateCustomType = async (
+  customTypePropParams: ICustomTypeCreationParams
+) => {
+  Logger.info("Creating a new custom type interface");
+
+  const textInterface = createTextInterface(customTypePropParams);
+
+  console.log("CREATED TEXT INTERFACE: ", textInterface);
 };

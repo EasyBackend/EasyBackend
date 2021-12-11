@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 import Logger from "../../../../../../logger/logger";
 import {
+  DatabaseStorageType,
   ICustomTypeCreationParams,
+  ISchemaCreationParams,
   InterfaceStorageType,
 } from "../../../../../../types";
 
@@ -19,6 +21,8 @@ import {
   confirmWithUserAndNavigate,
   shouldIncludeDBSchema,
 } from "../customType.utils";
+import { chooseRequiredProps } from "../../databaseSchema/databaseShema.utils";
+import { createDatabaseSchema } from "../../../../../../controllers/create/databaseSchema";
 
 /*
 ? Eventually we want to be able to create a custom type (or anything else for that matter) with one singular function.
@@ -39,6 +43,15 @@ export const createCustomTypeFromCLI = async (
   await promptForTypeName(tracker);
   await collectTypePropsFromUser(tracker);
   await shouldIncludeDBSchema(tracker);
+
+  const includeDBSchema = tracker.getFromStorage(
+    InterfaceStorageType.includeDBSchema
+  );
+
+  if (includeDBSchema) {
+    await chooseRequiredProps(tracker);
+  }
+
   await confirmWithUserAndNavigate(tracker);
 };
 
@@ -52,15 +65,37 @@ export const handleCustomTypeCreation = async (
 
   const typeName = tracker.getFromStorage(InterfaceStorageType.typeName);
 
+  const customTypeParams: ICustomTypeCreationParams = {
+    typeProps,
+    typeName,
+  };
+
+  await createCustomType(customTypeParams);
+
   const includeDBSchema = tracker.getFromStorage(
     InterfaceStorageType.includeDBSchema
   );
 
-  const customTypeParams: ICustomTypeCreationParams = {
-    typeProps,
-    typeName,
-    dbSchema: includeDBSchema,
-  };
+  if (includeDBSchema) {
+    const schemaProps = tracker.getFromStorage(DatabaseStorageType.schemaProps);
 
-  await createCustomType(customTypeParams);
+    const schemaName = tracker.getFromStorage(DatabaseStorageType.schemaName);
+
+    const uniqueProperty = tracker.getFromStorage(
+      DatabaseStorageType.uniqueProperty
+    );
+
+    const requiredProps = tracker.getFromStorage(
+      DatabaseStorageType.requiredProps
+    );
+
+    const dbSchemaParams: ISchemaCreationParams = {
+      schemaProps,
+      schemaName,
+      uniqueProperty,
+      requiredProps,
+    };
+
+    await createDatabaseSchema(dbSchemaParams);
+  }
 };

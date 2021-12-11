@@ -6,5 +6,4 @@ export interface ICustomTypeProp {
 export interface ICustomTypeCreationParams {
   typeProps: string[];
   typeName: string;
-  dbSchema: boolean;
 }

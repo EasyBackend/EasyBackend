@@ -2,10 +2,8 @@
 
 import inquirer from "inquirer";
 import { printCustomTypeDetails } from ".";
-import Logger from "../../../../../../logger/logger";
 import { InterfaceStorageType } from "../../../../../../types";
 import { RestProjectTracker, GqlProjectTracker } from "../../../../../../utils";
-import { confirmTypeCreationWithUser } from "../customType.utils";
 
 export const handleCustomTypePropsDeletion = async (
   tracker: RestProjectTracker | GqlProjectTracker

@@ -3,7 +3,7 @@ import { ICustomTypeCreationParams } from "../../../types";
 export const createTextInterface = ({
   typeProps,
   typeName,
-}: Omit<ICustomTypeCreationParams, "dbSchema">) => {
+}: ICustomTypeCreationParams) => {
   const declaration = `export interface ${typeName}`;
 
   const interfaceBody = `{
