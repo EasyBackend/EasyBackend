@@ -1,5 +1,5 @@
 import { checkForSpecialChars } from ".";
-import { ICustomTypeProp, StorageType } from "../../../../types";
+import { ICustomTypeProp, InterfaceStorageType } from "../../../../types";
 import {
   RestProjectTracker,
   GqlProjectTracker,
@@ -56,7 +56,9 @@ export const validateCustomTypeBeforeCreation = async (
 
 ? Finally, validateCustomTypeBeforeCreation() returns ValidationRes.OK or ValidationRes.INVALID if for some reason the operation failed.
 */
-  const typeProps = tracker.getFromStorage(StorageType.typeCreationProps);
+  const typeProps = tracker.getFromStorage(
+    InterfaceStorageType.typeCreationProps
+  );
   // { key: string; type: string; }[]
   const keysAndTypes: ICustomTypeProp[] = getKeysAndTypes(typeProps);
   // const allKeys = keysAndTypes.map((keyType) => keyType?.key);

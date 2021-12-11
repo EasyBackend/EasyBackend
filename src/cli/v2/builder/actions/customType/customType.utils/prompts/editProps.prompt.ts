@@ -2,7 +2,7 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 import Logger from "../../../../../../../logger/logger";
 
-import { StorageType } from "../../../../../../../types";
+import { InterfaceStorageType } from "../../../../../../../types";
 import {
   RestProjectTracker,
   GqlProjectTracker,
@@ -53,7 +53,7 @@ export const editTypePropsWithUser = async (
   };
 
   const typeProperties: string[] = tracker.getFromStorage(
-    StorageType.typeCreationProps
+    InterfaceStorageType.typeCreationProps
   );
 
   let { toEdit } = await inquirer.prompt([
@@ -73,7 +73,7 @@ export const editTypePropsWithUser = async (
   }
 
   tracker.addToStorage(
-    { key: StorageType.typeCreationProps, value: typeProperties },
+    { key: InterfaceStorageType.typeCreationProps, value: typeProperties },
     true
   );
 

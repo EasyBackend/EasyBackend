@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 import Logger from "../../../../../../logger/logger";
-import { StorageType } from "../../../../../../types";
+import {
+  ICustomTypeCreationParams,
+  InterfaceStorageType,
+} from "../../../../../../types";
 
 import { createCustomType } from "../../../../../../controllers";
 
@@ -14,6 +17,7 @@ import {
   promptForTypeName,
   collectTypePropsFromUser,
   confirmWithUserAndNavigate,
+  shouldIncludeDBSchema,
 } from "../customType.utils";
 
 /*
@@ -34,6 +38,7 @@ export const createCustomTypeFromCLI = async (
   }
   await promptForTypeName(tracker);
   await collectTypePropsFromUser(tracker);
+  await shouldIncludeDBSchema(tracker);
   await confirmWithUserAndNavigate(tracker);
 };
 
@@ -41,10 +46,21 @@ export const createCustomTypeFromCLI = async (
 export const handleCustomTypeCreation = async (
   tracker: RestProjectTracker | GqlProjectTracker
 ) => {
-  const typeProps = tracker.getFromStorage(StorageType.typeCreationProps);
-  const typeName = tracker.getFromStorage(StorageType.typeCreationName);
+  const typeProps = tracker.getFromStorage(
+    InterfaceStorageType.typeCreationProps
+  );
 
-  const customTypeParams = { typeProps, typeName };
+  const typeName = tracker.getFromStorage(InterfaceStorageType.typeName);
+
+  const includeDBSchema = tracker.getFromStorage(
+    InterfaceStorageType.includeDBSchema
+  );
+
+  const customTypeParams: ICustomTypeCreationParams = {
+    typeProps,
+    typeName,
+    dbSchema: includeDBSchema,
+  };
 
   await createCustomType(customTypeParams);
 };

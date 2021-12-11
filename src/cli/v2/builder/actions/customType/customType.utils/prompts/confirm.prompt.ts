@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 
-import { StorageType } from "../../../../../../../types";
+import { InterfaceStorageType } from "../../../../../../../types";
 import {
   RestProjectTracker,
   GqlProjectTracker,
@@ -20,7 +20,9 @@ export const confirmWithUserAndNavigate = async (
 ) => {
   process.removeAllListeners();
   if (!skipConfirm) await confirmTypeCreationWithUser(tracker);
-  const confirmType = tracker.getFromStorage(StorageType.confirmTypeCreation);
+  const confirmType = tracker.getFromStorage(
+    InterfaceStorageType.confirmTypeCreation
+  );
   if (confirmType) {
     await handleCustomTypeCreation(tracker);
   } else {
@@ -54,7 +56,7 @@ export const confirmTypeCreationWithUser = async (
     customTypeQuestions.confirmType,
   ]);
   tracker.addToStorage(
-    { key: StorageType.confirmTypeCreation, value: confirmType },
+    { key: InterfaceStorageType.confirmTypeCreation, value: confirmType },
     true
   );
 };

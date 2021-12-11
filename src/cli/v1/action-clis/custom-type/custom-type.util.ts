@@ -13,7 +13,7 @@ import {
   validateDuplicateKeys,
 } from "../input-validations";
 import Logger from "../../../../logger/logger";
-import { ICustomTypeProp, StorageType } from "../../../../types";
+import { ICustomTypeProp, InterfaceStorageType } from "../../../../types";
 
 // prompt user for type name and save it to tracker storage
 export const promptForTypeName = async (
@@ -25,7 +25,7 @@ export const promptForTypeName = async (
   const validationRes = validateCustomTypeName(tracker, typeName);
   validationRes === ValidationRes.OK
     ? tracker.addToStorage({
-        key: StorageType.typeCreationName,
+        key: InterfaceStorageType.typeName,
         value: typeName,
       })
     : await promptForTypeName(tracker, true);
@@ -65,7 +65,7 @@ export const collectTypeProps = async (
   let typeProperties: string[] = [];
   // get typeProps from storage, if there are any..
   const trackerStorageProps = tracker.getFromStorage(
-    StorageType.typeCreationProps
+    InterfaceStorageType.typeCreationProps
   );
   // if storage does have typeprops: load them to variable typeProperties
   if (trackerStorageProps && trackerStorageProps.length) {
@@ -78,7 +78,7 @@ export const collectTypeProps = async (
     const { abort, typeProp } = await promptForTypeProp(tracker);
     if (abort) {
       tracker.addToStorage({
-        key: StorageType.typeCreationProps,
+        key: InterfaceStorageType.typeCreationProps,
         value: typeProperties,
       });
       addMorePropertiesFlag = true;
@@ -107,7 +107,7 @@ export const collectTypeProps = async (
   }
   // save current prop list in storage.
   tracker.addToStorage({
-    key: StorageType.typeCreationProps,
+    key: InterfaceStorageType.typeCreationProps,
     value: typeProperties,
   });
   if (fromHistory) {
@@ -120,8 +120,10 @@ export const collectTypeProps = async (
 export const printCustomTypeDetails = (
   tracker: RestProjectTracker | GqlProjectTracker
 ) => {
-  const typeName = tracker.getFromStorage(StorageType.typeCreationName);
-  const typeProperties = tracker.getFromStorage(StorageType.typeCreationProps);
+  const typeName = tracker.getFromStorage(InterfaceStorageType.typeName);
+  const typeProperties = tracker.getFromStorage(
+    InterfaceStorageType.typeCreationProps
+  );
   console.clear();
   tracker.writeToBottomBar(
     `${chalk.green("Type name: ")}${typeName}\n\n${chalk.yellow(
@@ -139,7 +141,7 @@ export const confirmTypeCreation = async (
     customTypeQuestons.confirmType,
   ]);
   tracker.addToStorage(
-    { key: StorageType.confirmTypeCreation, value: confirmType },
+    { key: InterfaceStorageType.confirmTypeCreation, value: confirmType },
     true
   );
 };
@@ -152,13 +154,13 @@ export const handleCustomTypePropsDeletion = async (
 ) => {
   // array of properties of the custom type
   const typeProperties: string[] = tracker.getFromStorage(
-    StorageType.typeCreationProps
+    InterfaceStorageType.typeCreationProps
   );
   // array of props after deletion of selected props..
   const afterDeletion: string[] = await deleteFromListCLI(typeProperties);
   // save props to storage, replace old props in storage
   tracker.addToStorage(
-    { key: StorageType.typeCreationProps, value: afterDeletion },
+    { key: InterfaceStorageType.typeCreationProps, value: afterDeletion },
     true
   );
   printCustomTypeDetails(tracker);
@@ -185,5 +187,7 @@ export const handleCustomTypeCreation = async (
   navigationFunc: Function
 ) => {
   console.log("CREATED CUSTOM TYPE");
-  const typeProps = tracker.getFromStorage(StorageType.typeCreationProps);
+  const typeProps = tracker.getFromStorage(
+    InterfaceStorageType.typeCreationProps
+  );
 };

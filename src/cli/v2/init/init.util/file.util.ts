@@ -3,6 +3,7 @@ import ncp from "ncp";
 import { promisify } from "util";
 
 import { IMainOptions } from "../../../.../../../types";
+import Logger from "../../../../logger/logger";
 
 const copy = promisify(ncp);
 const write = promisify(fs.writeFile);
@@ -18,24 +19,29 @@ export const copyTemplateFiles = async (options: Partial<IMainOptions>) => {
   const { templateDirectory, targetDirectory } = options;
   const copyOptions = detemineFilesToCopy(options);
   if (!templateDirectory || !targetDirectory) return;
-  await Promise.all(
-    copyOptions.map((option: string) => {
-      copy(
-        `${templateDirectory}/${option}`,
-        targetDirectory, // copies the template into the relevant location without overwriting anything
-        {
-          clobber: false,
-        }
-      );
-    })
-  );
-  await copy(
-    `${templateDirectory}/basics`,
-    targetDirectory, // copies the template into the relevant location without overwriting anything
-    {
-      clobber: false,
-    }
-  );
+  try {
+    await Promise.all(
+      copyOptions.map((option: string) => {
+        console.log("COPYING OTHER");
+        copy(
+          `${templateDirectory}/${option}`,
+          targetDirectory, // copies the template into the relevant location without overwriting anything
+          {
+            clobber: false,
+          }
+        );
+      })
+    );
+    await copy(
+      `${templateDirectory}\\basics`,
+      targetDirectory, // copies the template into the relevant location without overwriting anything
+      {
+        clobber: false,
+      }
+    );
+  } catch (error) {
+    // swallow
+  }
 };
 
 export const detemineFilesToCopy = (options: Partial<IMainOptions>) => {

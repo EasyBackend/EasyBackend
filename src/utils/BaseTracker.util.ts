@@ -1,6 +1,11 @@
 import inquirer from "inquirer";
 import { RestProjectTracker, GqlProjectTracker } from ".";
-import { ITrackerStorage, ITrackerHistory, StorageType } from "../types";
+import {
+  ITrackerStorage,
+  ITrackerHistory,
+  InterfaceStorageType,
+  TrackerStorageTypes,
+} from "../types";
 
 export class BaseTracker {
   history = {} as ITrackerHistory;
@@ -47,7 +52,7 @@ export class BaseTracker {
       this.storage.push(data);
     }
   }
-  getFromStorage(key: StorageType) {
+  getFromStorage(key: TrackerStorageTypes) {
     // self explanatory.
     return this.storage.find((item) => item.key === key)?.value;
   }

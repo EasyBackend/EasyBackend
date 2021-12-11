@@ -3,7 +3,7 @@
 import inquirer from "inquirer";
 import { printCustomTypeDetails } from ".";
 import Logger from "../../../../../../logger/logger";
-import { StorageType } from "../../../../../../types";
+import { InterfaceStorageType } from "../../../../../../types";
 import { RestProjectTracker, GqlProjectTracker } from "../../../../../../utils";
 import { confirmTypeCreationWithUser } from "../customType.utils";
 
@@ -44,13 +44,13 @@ export const handleCustomTypePropsDeletion = async (
   };
 
   const typeProperties: string[] = tracker.getFromStorage(
-    StorageType.typeCreationProps
+    InterfaceStorageType.typeCreationProps
   );
 
   const afterDeletion: string[] = await deleteFromListCLI(typeProperties);
 
   tracker.addToStorage(
-    { key: StorageType.typeCreationProps, value: afterDeletion },
+    { key: InterfaceStorageType.typeCreationProps, value: afterDeletion },
     true
   );
 

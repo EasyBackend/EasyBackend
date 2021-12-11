@@ -1,11 +1,8 @@
-import path from "path";
-
 import Logger from "../../../logger/logger";
 import { ICustomTypeCreationParams } from "../../../types";
-
 import { validateCustomTypeBeforeCreation } from "../../../cli/v2/builder/actions/customType/customType.validations/input-validations";
 import { ValidationRes } from "../../../utils";
-import { isConstructorDeclaration } from "typescript";
+import { createTextInterface } from "./customType.util";
 
 /**
  * @param { ICustomTypeCreationParams } ICustomTypeCreationParams
@@ -15,14 +12,13 @@ import { isConstructorDeclaration } from "typescript";
 } 
  */
 export const createCustomType = async (
-  customTypeCreationParams: ICustomTypeCreationParams
+  customTypePropParams: ICustomTypeCreationParams
 ) => {
   const { isValid, message } = await validateCustomTypeBeforeCreation(
-    customTypeCreationParams
+    customTypePropParams
   );
   if (isValid === ValidationRes.VALID) {
-    console.log("LOCATION: ", process.cwd());
-    console.log("RESOLVED: ", path.resolve(process.cwd(), "./src/types"));
+    await doCreateCustomType(customTypePropParams);
   } else {
     Array.isArray(message)
       ? message.forEach((message) => {
@@ -30,4 +26,14 @@ export const createCustomType = async (
         })
       : Logger.error(message);
   }
+};
+
+const doCreateCustomType = async ({
+  typeProps,
+  typeName,
+  dbSchema,
+}: ICustomTypeCreationParams) => {
+  const textInterface = createTextInterface({ typeProps, typeName });
+  // imhere in creating a DB schema
+  const textDBSchema = dbSchema ? {} : null;
 };

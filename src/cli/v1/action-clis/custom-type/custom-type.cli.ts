@@ -11,7 +11,7 @@ import {
 import { GqlProjectTracker, RestProjectTracker } from "../../../../utils";
 import { customTypeQuestons, getTracker } from "../../cli-utils";
 import Logger from "../../../../logger/logger";
-import { StorageType } from "../../../../types";
+import { InterfaceStorageType } from "../../../../types";
 import { validateCustomTypeBeforeCreation } from "../input-validations";
 
 export const customType = async (
@@ -32,7 +32,9 @@ const navigateFromConfirm = async (
 ) => {
   process.removeAllListeners(); // avoid memory leaks
   await confirmTypeCreation(tracker); // confirm if it's OK or not
-  const confirmType = tracker.getFromStorage(StorageType.confirmTypeCreation); // check confirm
+  const confirmType = tracker.getFromStorage(
+    InterfaceStorageType.confirmTypeCreation
+  ); // check confirm
   if (confirmType) {
     // ? if "OK", validate custom type
     await validateCustomTypeBeforeCreation(tracker);

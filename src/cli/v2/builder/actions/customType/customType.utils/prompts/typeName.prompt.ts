@@ -1,7 +1,7 @@
 import inquirer from "inquirer";
 
 import Logger from "../../../../../../../logger/logger";
-import { StorageType } from "../../../../../../../types";
+import { InterfaceStorageType } from "../../../../../../../types";
 import {
   RestProjectTracker,
   GqlProjectTracker,
@@ -24,7 +24,7 @@ export const promptForTypeName = async (
 
   isValid === ValidationRes.VALID
     ? tracker.addToStorage({
-        key: StorageType.typeCreationName,
+        key: InterfaceStorageType.typeName,
         value: typeName,
       })
     : await promptForTypeName(tracker, true);

@@ -1,7 +1,7 @@
 import chalk from "chalk";
+import path from "path";
 import fs from "fs";
 import { promisify } from "util";
-import path from "path";
 import { projectInstall } from "pkg-install";
 import Listr from "listr";
 
@@ -14,13 +14,19 @@ const access = promisify(fs.access);
 
 export const createProject = async (options: Partial<IMainOptions>) => {
   // creates project
-  const { template, implementation } = options;
+  const { template, implementation, projectName } = options;
+
   const restfulOrGQL = implementation === "Restful API" ? "rest" : "gql"; // restful or graph ql
+
   const currentFileUrl = import.meta.url; // current file url helps us get the template's directory path
+
   if (!template) {
     Logger.error(`Invalid template name`); // no template no money
     return;
   }
+
+  const targetDirectory = `${process.cwd()}\\${projectName}`;
+
   const templateDir = path
     .resolve(
       new URL(currentFileUrl).pathname,
@@ -29,18 +35,19 @@ export const createProject = async (options: Partial<IMainOptions>) => {
     )
     .slice(3)
     .replace("create-project.js\\", "");
-  const targetDirectory = process.cwd();
 
   options = {
     ...options,
     targetDirectory,
     templateDirectory: templateDir,
   };
+
   try {
     await access(templateDir, fs.constants.R_OK);
   } catch ({ message }) {
     // makes sure folder is there
     Logger.error(`Invalid template name, ${message}`); // no template no money
+
     process.exit(1);
   }
 

@@ -4,7 +4,7 @@ import Logger from "../../../../../../../logger/logger";
 import {
   ICustomTypeCreationParams,
   ICustomTypeProp,
-  StorageType,
+  InterfaceStorageType,
 } from "../../../../../../../types";
 
 import {
@@ -60,7 +60,7 @@ export const validateCustomTypeProp = (
   const typing = splatType[1]?.trim();
 
   const currentTypeProps: string[] | undefined = tracker.getFromStorage(
-    StorageType.typeCreationProps
+    InterfaceStorageType.typeCreationProps
   );
 
   const duplicateKeysValid = currentTypeProps

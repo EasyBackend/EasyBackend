@@ -4,7 +4,7 @@ import inquirer from "inquirer";
 import Logger from "../../../../../../../logger/logger";
 import {
   promptForTypePropReturn,
-  StorageType,
+  InterfaceStorageType,
 } from "../../../../../../../types";
 import {
   RestProjectTracker,
@@ -53,7 +53,7 @@ export const collectTypePropsFromUser = async (
   let typeProperties: string[] = [];
 
   const trackerStorageProps = tracker.getFromStorage(
-    StorageType.typeCreationProps
+    InterfaceStorageType.typeCreationProps
   );
 
   if (trackerStorageProps && trackerStorageProps.length) {
@@ -69,7 +69,7 @@ export const collectTypePropsFromUser = async (
 
     if (abort) {
       tracker.addToStorage({
-        key: StorageType.typeCreationProps,
+        key: InterfaceStorageType.typeCreationProps,
         value: typeProperties,
       });
       addMorePropertiesFlag = true;
@@ -79,7 +79,7 @@ export const collectTypePropsFromUser = async (
     typeProperties.push(typeProp);
 
     tracker.addToStorage({
-      key: StorageType.typeCreationProps,
+      key: InterfaceStorageType.typeCreationProps,
       value: typeProperties,
     });
 
