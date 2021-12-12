@@ -19,14 +19,18 @@ export const confirmWithUserAndNavigate = async (
   skipConfirm?: boolean
 ) => {
   process.removeAllListeners();
+
   if (!skipConfirm) await confirmTypeCreationWithUser(tracker);
+
   const confirmType = tracker.getFromStorage(
     InterfaceStorageType.confirmTypeCreation
   );
+
   if (confirmType) {
     await handleCustomTypeCreation(tracker);
   } else {
     const { notOK } = await inquirer.prompt([customTypeQuestions.typeNotOK]);
+
     tracker.setHistory(confirmWithUserAndNavigate);
     // [Delete properties, Add more properties, Edit properties, default-"none"]
     switch (notOK) {
@@ -52,9 +56,11 @@ export const confirmTypeCreationWithUser = async (
   tracker: RestProjectTracker | GqlProjectTracker
 ) => {
   printCustomTypeDetails(tracker);
+
   const { confirmType } = await inquirer.prompt([
     customTypeQuestions.confirmType,
   ]);
+
   tracker.addToStorage(
     { key: InterfaceStorageType.confirmTypeCreation, value: confirmType },
     true

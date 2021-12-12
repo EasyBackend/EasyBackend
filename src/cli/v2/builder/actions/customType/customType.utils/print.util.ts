@@ -6,13 +6,14 @@ export const printCustomTypeDetails = (
   tracker: RestProjectTracker | GqlProjectTracker
 ) => {
   const typeName = tracker.getFromStorage(InterfaceStorageType.typeName);
+
   const typeProperties = tracker.getFromStorage(
     InterfaceStorageType.typeCreationProps
   );
-  // console.clear();
+
   tracker.writeToBottomBar(
     `${chalk.green("Type name: ")}${typeName}\n\n${chalk.yellow(
-      "Properties: "
+      " Properties: "
     )}${typeProperties.join(", ")}`,
     true
   );

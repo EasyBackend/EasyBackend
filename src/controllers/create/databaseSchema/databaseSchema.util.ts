@@ -1,20 +1,25 @@
 import { ISchemaCreationParams } from "../../../types";
-import { fromStringToKeyTypeObj } from "../../../utils/string";
+import { fromTypePropsToSchemaProps } from "../../../utils/string";
 
 export const createTextDatabaseSchema = async ({
   schemaProps,
   schemaName,
   uniqueProperty,
+  requiredProps,
 }: ISchemaCreationParams) => {
   const schemaVariableName = `${schemaName}MongoSchema`;
   // imhere
   const declaration = `const ${schemaVariableName}: Schema = new mongoose.Schema`;
 
+  schemaProps;
+  const test = await parsePropsForDatabaseSchema({
+    typeProps: schemaProps,
+    uniqueProperty,
+    requiredProps,
+  });
+
   const body = `({
-      ${await parsePropsForDatabaseSchema({
-        typeProps: schemaProps,
-        uniqueProperty,
-      })}
+      ${schemaProps}
     })`;
 
   const transformStatement = `${schemaVariableName}.set('toJSON', {
@@ -26,14 +31,16 @@ export const createTextDatabaseSchema = async ({
 
 const parsePropsForDatabaseSchema = async ({
   typeProps,
+  requiredProps,
   uniqueProperty,
 }: {
   typeProps: string[];
+  requiredProps: string[];
   uniqueProperty: string | null;
-}): Promise<string[]> => {
-  const keyTypeObjects = fromStringToKeyTypeObj(typeProps);
+}) =>
+  // : Promise<string[]>
+  {
+    const schemaProps = fromTypePropsToSchemaProps(typeProps);
 
-  typeProps = keyTypeObjects.map((keyTypeObj) => {
-    // imhere
-  });
-};
+    console.log("finished the walk, schemaProps are:::: ", schemaProps);
+  };

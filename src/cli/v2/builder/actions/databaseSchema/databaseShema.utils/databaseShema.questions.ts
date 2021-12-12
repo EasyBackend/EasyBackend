@@ -5,12 +5,17 @@ export const databaseSchemaQuestions = {
     message: "Do you need a unique constraint for this schema?",
     default: false,
   },
-  chooseUniqueProp: (schemaProps: string[]) => {
+  chooseUniqueProp: (typeProps: string[]) => {
+    // currently can't support array types as unique props
+    const possibleUniqueProps = typeProps.filter(
+      (typeProp) => !typeProp.includes("[")
+    );
+
     return {
       type: "list",
       name: "chosenUniqueProperty",
       message: "Choose a property to be unique",
-      choices: schemaProps,
+      choices: possibleUniqueProps,
     };
   },
   chooseRequiredProps: (schemaProps: string[]) => {

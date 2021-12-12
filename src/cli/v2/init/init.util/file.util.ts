@@ -22,7 +22,6 @@ export const copyTemplateFiles = async (options: Partial<IMainOptions>) => {
   try {
     await Promise.all(
       copyOptions.map((option: string) => {
-        console.log("COPYING OTHER");
         copy(
           `${templateDirectory}/${option}`,
           targetDirectory, // copies the template into the relevant location without overwriting anything

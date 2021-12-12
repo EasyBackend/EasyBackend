@@ -33,9 +33,8 @@ export const createDatabaseSchema = async (
 const doCreateDatabaseSchema = async (
   schemaCreationParams: ISchemaCreationParams
 ) => {
-  Logger.info("Creating a new custom type interface");
+  Logger.info("Creating a new database schema");
 
-  const textDBSchema = createTextDatabaseSchema(schemaCreationParams);
-
-  console.log("CREATED, text DB Schema: ", textDBSchema);
+  // imhere
+  const textDBSchema = await createTextDatabaseSchema(schemaCreationParams);
 };

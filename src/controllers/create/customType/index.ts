@@ -36,6 +36,4 @@ const doCreateCustomType = async (
   Logger.info("Creating a new custom type interface");
 
   const textInterface = createTextInterface(customTypePropParams);
-
-  console.log("CREATED TEXT INTERFACE: ", textInterface);
 };

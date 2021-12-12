@@ -186,7 +186,6 @@ export const handleCustomTypeCreation = async (
   tracker: RestProjectTracker | GqlProjectTracker,
   navigationFunc: Function
 ) => {
-  console.log("CREATED CUSTOM TYPE");
   const typeProps = tracker.getFromStorage(
     InterfaceStorageType.typeCreationProps
   );

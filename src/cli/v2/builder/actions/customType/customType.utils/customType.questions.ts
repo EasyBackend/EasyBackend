@@ -46,15 +46,8 @@ export const customTypeQuestions = {
     message: "Do you need a unique constraint for this schema?",
     default: false,
   },
-  chooseUniqueProp: (typeProps: string[]) => {
-    return {
-      type: "list",
-      name: "chosenUniqueProperty",
-      message: "Choose a property to be unique",
-      choices: typeProps,
-    };
-  },
 };
+
 export const customTypeValidationQuestions = {
   duplicates: {
     type: "list",
