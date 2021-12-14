@@ -3,7 +3,6 @@ import { promisify } from "util";
 
 import { IMainOptions } from "../types";
 import ncp from "ncp";
-import Logger from "../logger/logger";
 
 const copy = promisify(ncp);
 const write = promisify(fs.writeFile);

@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import fs from "fs";
 import { promisify } from "util";
-
 import path from "path";
 import { projectInstall } from "pkg-install";
 import Listr from "listr";
@@ -15,7 +14,7 @@ import {
   gqlTracker,
   restTracker,
 } from "./utils";
-import { initGit } from "./cli/cli-utils";
+import { initGit } from "./cli/v1/cli-utils";
 
 const access = promisify(fs.access);
 

@@ -6,6 +6,7 @@ export interface IMainOptions {
   templateDirectory: string;
   databaseTemplateDir: string;
   database: string;
+  projectName: string;
   databaseUri?: string;
   implementation: string;
   level: string;

@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+require = require("esm")(module /*, options */);
+require("../build/cli/v2/init/init.cli/launch-server.js").launchServer(
+  process.argv
+);

@@ -1,22 +1,30 @@
-utils:
-  - src/utils/**/*
-cli-utils:
-  - src/cli/cli-utils/**/*
+bin:
+  - src/bin/**/*
+cli-v1:
+  - src/cli/v1/**/*
+cli-v2:
+  - src/cli/v2/**/*
+controllers-v1:
+  - src/controllers/v1/**/*
+controllers-v1-validations:
+  - src/controllers/v1/input-validations/**/*
+api-v1:
+  - src/api/v1/**/*
+routes:
+  - src/api/v1/routes/**/*
+connectors:
+  - src/api/v1/connectors/**/*
+db:
+  - src/db/**/*
+templates:
+  - src/templates/**/*
 types:
   - src/types/**/*
-initial-cli:
-  - src/cli/initial-cli.ts
-builder-cli:
-  - src/cli/builder-cli.ts
-prebuilt-actions:
-  - src/cli/action-clis/prebuilt-actions/**/*
-custom-type:
-  - src/cli/action-clis/custom-type/**/*
-custom-action:
-  - src/cli/action-clis/custom-action/**/*
+utils:
+  - src/utils/**/*
 package:
   - app/package.json
 workflows:
   - .github/workflows/**/*
 tests:
-  - __tests__/**/*
+  - src/__tests__/**/*
