@@ -7,8 +7,6 @@ import {
   ISchemaCreationParams,
 } from "../../../../../../types";
 
-import { createCustomType } from "../../../../../../controllers";
-
 import {
   GqlProjectTracker,
   RestProjectTracker,
@@ -22,7 +20,6 @@ import {
   shouldIncludeDBSchema,
 } from "../customType.utils";
 import { chooseRequiredProps } from "../../databaseSchema/databaseShema.utils";
-import { createDatabaseSchema } from "../../../../../../controllers/create/databaseSchema";
 
 /*
 ? Eventually we want to be able to create a custom type (or anything else for that matter) with one singular function.
@@ -99,3 +96,10 @@ export const handleCustomTypeCreation = async (
     await createDatabaseSchema(dbSchemaParams);
   }
 };
+function createCustomType(customTypeParams: ICustomTypeCreationParams) {
+  throw new Error("Function not implemented.");
+}
+
+function createDatabaseSchema(dbSchemaParams: ISchemaCreationParams) {
+  throw new Error("Function not implemented.");
+}
