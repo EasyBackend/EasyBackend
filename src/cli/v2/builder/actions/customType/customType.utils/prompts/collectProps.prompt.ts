@@ -12,7 +12,7 @@ import {
   ValidationRes,
 } from "../../../../../../../utils";
 
-import { validateCustomTypeProp } from "../../../../../../../controllers/input-validations";
+import { validateCustomTypeProp } from "../../../../../../../controllers/v1/input-validations";
 import { customTypeQuestions, logAllValidTypes } from "..";
 
 // ? this calls promptForTypeProp() and more to collect a string[] of all the type props for the user.

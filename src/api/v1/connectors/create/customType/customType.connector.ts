@@ -1,11 +1,9 @@
-import Logger from "../../../logger/logger";
-
-import { createCustomType } from "../../../controllers";
+import { createCustomType } from "../../../../../controllers/v1";
 
 export const createCustomTypeFromAPI = async (req: Request, res: Response) => {
-  Logger.http("I AM HERE HERE HEREEE");
-  // TODO: FIX ANY
+  // TODO: fix any
   const customTypeCreationParams: any = req.body;
+
   await createCustomType(customTypeCreationParams);
 };
 

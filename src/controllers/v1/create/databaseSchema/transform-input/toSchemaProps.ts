@@ -1,5 +1,5 @@
-import { capitalizeFirstLetter } from "../../../../utils/string";
-import { dbSchemaProp } from "../../../../types/dbSchemaProp";
+import { dbSchemaProp } from "../../../../../types";
+import { capitalizeFirstLetter } from "../../../../../utils/string";
 
 export const fromTypePropsToSchemaProps = ({
   typeProps,

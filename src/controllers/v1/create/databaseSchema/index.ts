@@ -1,6 +1,6 @@
-import Logger from "../../../logger/logger";
-import { ISchemaCreationParams } from "../../../types";
-import { ValidationRes } from "../../../utils";
+import Logger from "../../../../logger/logger";
+import { ISchemaCreationParams } from "../../../../types";
+import { ValidationRes } from "../../../../utils";
 import { validateSchemaBeforeCreation } from "../../input-validations";
 import { createTextDatabaseSchema } from "./transform-input/toTextDatabaseSchema";
 

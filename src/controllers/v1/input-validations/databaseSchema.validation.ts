@@ -1,5 +1,5 @@
-import { ISchemaCreationParams } from "../../types";
-import { ValidationRes } from "../../utils";
+import { ISchemaCreationParams } from "../../../types";
+import { ValidationRes } from "../../../utils";
 
 export const validateSchemaBeforeCreation = async (
   schemaCreationParams: ISchemaCreationParams

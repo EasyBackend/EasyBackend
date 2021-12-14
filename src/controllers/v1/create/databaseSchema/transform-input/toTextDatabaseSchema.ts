@@ -1,5 +1,5 @@
-import { ISchemaCreationParams } from "../../../../types";
 import { fromTypePropsToSchemaProps } from ".";
+import { ISchemaCreationParams } from "../../../../../types";
 
 export const createTextDatabaseSchema = async ({
   schemaProps,

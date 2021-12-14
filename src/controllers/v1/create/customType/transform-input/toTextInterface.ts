@@ -1,10 +1,10 @@
-import { ICustomTypeCreationParams } from "../../../../types";
+import { ICustomTypeCreationParams } from "../../../../../types";
 
 export const createTextInterface = ({
   typeProps,
   typeName,
 }: ICustomTypeCreationParams) => {
-  const declaration = `export interface ${typeName}`;
+  const declaration = `export interface I${typeName}`;
 
   const interfaceBody = `{
         ${typeProps}
