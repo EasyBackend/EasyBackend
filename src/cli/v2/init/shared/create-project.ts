@@ -1,42 +1,41 @@
 import chalk from "chalk";
-import fs from "fs";
-import { promisify } from "util";
 import path from "path";
-import { projectInstall } from "pkg-install";
+import fs from "fs";
 import Listr from "listr";
-
-import Logger from "./logger/logger";
-import { IMainOptions } from "./types";
-import {
-  copyTemplateFiles,
-  createError,
-  databaseSetup,
-  gqlTracker,
-  restTracker,
-} from "./utils";
-import { initGit } from "./cli/v2/init/shared/init-git";
+import { projectInstall } from "pkg-install";
+import { promisify } from "util";
+import { databaseSetup } from "./init-db";
+import { copyTemplateFiles } from "./init-file";
+import { initGit } from "./init-git";
+import Logger from "../../../../logger/logger";
+import { IMainOptions } from "../../../../types";
+import { gqlTracker, restTracker } from "../../../../utils";
 
 const access = promisify(fs.access);
 
 export const createProject = async (options: Partial<IMainOptions>) => {
   // creates project
-  const { template, implementation } = options;
+  const { template, implementation, projectName } = options;
+
   const restfulOrGQL = implementation === "Restful API" ? "rest" : "gql"; // restful or graph ql
+
   const currentFileUrl = import.meta.url; // current file url helps us get the template's directory path
 
   if (!template) {
-    createError(`${chalk.red.bold("ERROR")}, Invalid template name`); // no template no money
+    Logger.error(`Invalid template name`); // no template no money
     return;
   }
+
+  const targetDirectory = `${process.cwd()}\\${projectName}`;
+
   const templateDir = path
     .resolve(
       new URL(currentFileUrl).pathname,
-      `./templates/${restfulOrGQL}`, // pick templates from either gql folder or restfulAPI folder.
+      `../../../../../../templates/${restfulOrGQL}`, // pick templates from either gql folder or restfulAPI folder.
       template.toLowerCase()
     )
     .slice(3)
     .replace("create-project.js\\", "");
-  const targetDirectory = process.cwd();
 
   options = {
     ...options,
@@ -48,9 +47,8 @@ export const createProject = async (options: Partial<IMainOptions>) => {
     await access(templateDir, fs.constants.R_OK);
   } catch ({ message }) {
     // makes sure folder is there
-    Logger.error(
-      `${chalk.red.bold("ERROR")}, Invalid template name, ${message}`
-    );
+    Logger.error(`Invalid template name, ${message}`); // no template no money
+
     process.exit(1);
   }
 
@@ -70,7 +68,6 @@ export const createProject = async (options: Partial<IMainOptions>) => {
       enabled: () => options.git || false,
     },
     {
-      // TODO: When at home, add a package.json to the template folders, so dependencies are installed.
       title: "Install dependencies",
       task: () =>
         projectInstall({
