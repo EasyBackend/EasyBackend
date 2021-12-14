@@ -1,2 +1,1 @@
-export { createCustomType } from "./create/customType";
-export { createDatabaseSchema } from "./create/databaseSchema";
+export { createCustomType } from "./create/restapi/custom-type";

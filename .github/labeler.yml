@@ -27,4 +27,4 @@ package:
 workflows:
   - .github/workflows/**/*
 tests:
-  - src/__tests__/**/*
+  - test/**/*
