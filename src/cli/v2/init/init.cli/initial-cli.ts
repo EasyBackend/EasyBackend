@@ -42,6 +42,7 @@ const promptForMissingOptions = async (options: {
     databaseUri: answers.databaseUri,
     implementation: answers.implementation,
     level: answers.level,
+    projectName: answers.projectName,
   };
 };
 

@@ -3,6 +3,12 @@ import { IQuestion } from "../../../../types";
 
 export const createServerQuestions: IQuestion[] = [
   {
+    type: "input",
+    name: "projectName",
+    message: "Project name? (default: server)",
+    default: "server",
+  },
+  {
     type: "list",
     name: "database",
     message: "Please choose a database to work with",

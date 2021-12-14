@@ -1,18 +1,38 @@
 #!/usr/bin/env node
+import Logger from "../../../../../../logger/logger";
 import {
-  promptForTypeName,
-  collectTypeProps,
-  navigateFromConfirm,
-} from "../customType.utils";
+  DatabaseStorageType,
+  ICustomTypeCreationParams,
+  InterfaceStorageType,
+  ISchemaCreationParams,
+} from "../../../../../../types";
+
+import { createCustomType } from "../../../../../../controllers";
+
 import {
   GqlProjectTracker,
   RestProjectTracker,
   getTracker,
 } from "../../../../../../utils";
-import Logger from "../../../../../../logger/logger";
-import { StorageType } from "../../../../../../types";
 
-export const createCustomType = async (
+import {
+  promptForTypeName,
+  collectTypePropsFromUser,
+  confirmWithUserAndNavigate,
+  shouldIncludeDBSchema,
+} from "../customType.utils";
+import { chooseRequiredProps } from "../../databaseSchema/databaseShema.utils";
+import { createDatabaseSchema } from "../../../../../../controllers/create/databaseSchema";
+
+/*
+? Eventually we want to be able to create a custom type (or anything else for that matter) with one singular function.
+? This is what we have the API's controllers for. Any other function, like the functions working at createCustomTypeFromCLI(),
+? is only here for collecting the necessary params from the user - we don't want to have multiple functions doing the same thing'
+*/
+
+// This whole function's flow should be UI-related only -
+// this should definitely have nothing to do with creating the custom type itself.
+export const createCustomTypeFromCLI = async (
   tracker?: RestProjectTracker | GqlProjectTracker
 ) => {
   if (!tracker) tracker = await getTracker();
@@ -20,16 +40,62 @@ export const createCustomType = async (
     Logger.error(`No tracker found, aborting..`);
     return;
   }
-  await promptForTypeName(tracker); // ask the user for a type name
-  await collectTypeProps(tracker); // ask the user for type properties
-  await navigateFromConfirm(tracker);
+  await promptForTypeName(tracker);
+  await collectTypePropsFromUser(tracker);
+  await shouldIncludeDBSchema(tracker);
+
+  const includeDBSchema = tracker.getFromStorage(
+    InterfaceStorageType.includeDBSchema
+  );
+
+  if (includeDBSchema) {
+    await chooseRequiredProps(tracker);
+  }
+
+  await confirmWithUserAndNavigate(tracker);
 };
-// If the custom type is valid, create it.
-// @navigationFunc to return the user to the correct place in case of error.
+
+// This is the function that extracts the params from Tracker and sends it to createCustomType()
 export const handleCustomTypeCreation = async (
-  tracker: RestProjectTracker | GqlProjectTracker,
-  navigationFunc: Function
+  tracker: RestProjectTracker | GqlProjectTracker
 ) => {
-  console.log("CREATED CUSTOM TYPE");
-  const typeProps = tracker.getFromStorage(StorageType.typeCreationProps);
+  const typeProps = tracker.getFromStorage(
+    InterfaceStorageType.typeCreationProps
+  );
+
+  const typeName = tracker.getFromStorage(InterfaceStorageType.typeName);
+
+  const customTypeParams: ICustomTypeCreationParams = {
+    typeProps,
+    typeName,
+  };
+
+  await createCustomType(customTypeParams);
+
+  const includeDBSchema = tracker.getFromStorage(
+    InterfaceStorageType.includeDBSchema
+  );
+
+  if (includeDBSchema) {
+    const schemaProps = tracker.getFromStorage(DatabaseStorageType.schemaProps);
+
+    const schemaName = tracker.getFromStorage(DatabaseStorageType.schemaName);
+
+    const uniqueProperty = tracker.getFromStorage(
+      DatabaseStorageType.uniqueProperty
+    );
+
+    const requiredProps = tracker.getFromStorage(
+      DatabaseStorageType.requiredProps
+    );
+
+    const dbSchemaParams: ISchemaCreationParams = {
+      schemaProps,
+      schemaName,
+      uniqueProperty,
+      requiredProps,
+    };
+
+    await createDatabaseSchema(dbSchemaParams);
+  }
 };

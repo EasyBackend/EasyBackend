@@ -1,20 +1,24 @@
 import chalk from "chalk";
-import { StorageType } from "../../../../../../types";
+import { InterfaceStorageType } from "../../../../../../types";
 import { RestProjectTracker, GqlProjectTracker } from "../../../../../../utils";
 
 export const printCustomTypeDetails = (
   tracker: RestProjectTracker | GqlProjectTracker
 ) => {
-  const typeName = tracker.getFromStorage(StorageType.typeCreationName);
-  const typeProperties = tracker.getFromStorage(StorageType.typeCreationProps);
-  console.clear();
+  const typeName = tracker.getFromStorage(InterfaceStorageType.typeName);
+
+  const typeProperties = tracker.getFromStorage(
+    InterfaceStorageType.typeCreationProps
+  );
+
   tracker.writeToBottomBar(
     `${chalk.green("Type name: ")}${typeName}\n\n${chalk.yellow(
-      "Properties: "
+      " Properties: "
     )}${typeProperties.join(", ")}`,
     true
   );
 };
+
 export const logAllValidTypes = (
   tracker: RestProjectTracker | GqlProjectTracker,
   typeProperties: string[]

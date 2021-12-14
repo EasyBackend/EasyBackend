@@ -1,7 +1,11 @@
 import inquirer from "inquirer";
 import { RestProjectTracker, GqlProjectTracker } from ".";
-import { longAssLine } from "../v1/cli-utils";
-import { ITrackerStorage, ITrackerHistory, StorageType } from "../types";
+import {
+  ITrackerStorage,
+  ITrackerHistory,
+  InterfaceStorageType,
+  TrackerStorageTypes,
+} from "../types";
 
 export class BaseTracker {
   history = {} as ITrackerHistory;
@@ -13,16 +17,19 @@ export class BaseTracker {
   */
   storage: ITrackerStorage[] = []; // TODO: Make sure storage gets cleared after every action.
   // ? The tracker's storage, which keeps temporary data like props during a type creation process, when deleting or editing them.
-
   constructor() {}
 
   writeToBottomBar(content: string, clear?: boolean, seperator?: boolean) {
-    if (clear) console.clear();
+    // if (clear) console.clear();
     // @seperator writes a big seperator line and then some text in the CLI
     const ui = new inquirer.ui.BottomBar();
     ui.log.write(
       `${
-        seperator ? new inquirer.Separator(longAssLine) + "\n" : ""
+        seperator
+          ? new inquirer.Separator(
+              "==========================================================="
+            ) + "\n"
+          : ""
       } ${content}`
     );
   }
@@ -31,7 +38,7 @@ export class BaseTracker {
     // adds or replaces an item in the temporary storage.
     if (replace && !Array.isArray(data)) {
       const replaceIndex = this.storage.findIndex(
-        (item) => item.as === data.as
+        (item) => item.key === data.key
       );
       if (replaceIndex !== -1) {
         this.storage.splice(replaceIndex, 1, data);
@@ -45,9 +52,9 @@ export class BaseTracker {
       this.storage.push(data);
     }
   }
-  getFromStorage(key: StorageType) {
+  getFromStorage(key: TrackerStorageTypes) {
     // self explanatory.
-    return this.storage.find((item) => item.as === key)?.value;
+    return this.storage.find((item) => item.key === key)?.value;
   }
   setHistory(history: Function) {
     //?  sets the history object with all it's methods.
@@ -59,7 +66,7 @@ export class BaseTracker {
   }
 }
 
-export const getAllAllowedTypes = (
+export const getAllAllowedTypesFromTracker = (
   tracker: RestProjectTracker | GqlProjectTracker
 ) => {
   const { arrayTypes, objectTypes, primitiveTypes, customTypes } =

@@ -1,4 +1,4 @@
-import { ICustomTypeProp } from "../../../types";
+import { ICustomTypeProp } from "../../../../types";
 import { ValidationRes } from "../../cli-utils";
 import { getKeysAndTypes } from "../custom-type/custom-type.util";
 

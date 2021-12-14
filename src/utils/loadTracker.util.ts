@@ -1,7 +1,9 @@
 import fs from "fs";
 import path from "path";
 import { promisify } from "util";
+
 import Logger from "../logger/logger";
+
 import { restTracker, gqlTracker } from ".";
 
 const read = promisify(fs.readFile);

@@ -5,7 +5,7 @@ import {
   prebuiltActionsAvailable,
   getTracker,
 } from "../../cli-utils";
-import { RestProjectTracker, GqlProjectTracker } from "../../../utils";
+import { RestProjectTracker, GqlProjectTracker } from "../../../../utils";
 
 const prebuilt_navigate = async (
   tracker: RestProjectTracker | GqlProjectTracker

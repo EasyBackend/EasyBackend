@@ -34,7 +34,20 @@ export const customTypeQuestions = {
     choices: ["Delete properties", "Add more properties", "Edit properties"],
     default: "none",
   },
+  includeDBSchema: {
+    type: "confirm",
+    name: "dbSchema",
+    message: "Also create a DB schema for this type?",
+    default: false,
+  },
+  uniqueProp: {
+    type: "confirm",
+    name: "uniqueProp",
+    message: "Do you need a unique constraint for this schema?",
+    default: false,
+  },
 };
+
 export const customTypeValidationQuestions = {
   duplicates: {
     type: "list",

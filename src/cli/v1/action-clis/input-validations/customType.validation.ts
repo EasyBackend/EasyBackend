@@ -1,10 +1,10 @@
 import { checkForSpecialChars } from ".";
-import { ICustomTypeProp, StorageType } from "../../../types";
+import { ICustomTypeProp, InterfaceStorageType } from "../../../../types";
 import {
   RestProjectTracker,
   GqlProjectTracker,
-  getAllAllowedTypes,
-} from "../../../utils";
+  getAllAllowedTypesFromTracker,
+} from "../../../../utils";
 import { ValidationRes } from "../../cli-utils";
 import { getKeysAndTypes } from "../custom-type/custom-type.util";
 
@@ -12,7 +12,7 @@ export const validateCustomTypeName = (
   tracker: RestProjectTracker | GqlProjectTracker,
   typeName: string
 ) => {
-  const allowedTypes: string[] = getAllAllowedTypes(tracker);
+  const allowedTypes: string[] = getAllAllowedTypesFromTracker(tracker);
   if (
     !typeName ||
     typeName.length === 0 ||
@@ -23,6 +23,7 @@ export const validateCustomTypeName = (
     ? ValidationRes.INVALID
     : ValidationRes.OK;
 };
+
 export const validateCustomTypeProp = (
   tracker: RestProjectTracker | GqlProjectTracker,
   type: string
@@ -40,7 +41,7 @@ export const validateCustomTypeProp = (
   ) {
     return ValidationRes.INVALID;
   }
-  const validTypes = getAllAllowedTypes(tracker);
+  const validTypes = getAllAllowedTypesFromTracker(tracker);
   return validTypes.includes(typing) ? ValidationRes.OK : ValidationRes.INVALID;
 };
 
@@ -55,7 +56,9 @@ export const validateCustomTypeBeforeCreation = async (
 
 ? Finally, validateCustomTypeBeforeCreation() returns ValidationRes.OK or ValidationRes.INVALID if for some reason the operation failed.
 */
-  const typeProps = tracker.getFromStorage(StorageType.typeCreationProps);
+  const typeProps = tracker.getFromStorage(
+    InterfaceStorageType.typeCreationProps
+  );
   // { key: string; type: string; }[]
   const keysAndTypes: ICustomTypeProp[] = getKeysAndTypes(typeProps);
   // const allKeys = keysAndTypes.map((keyType) => keyType?.key);
