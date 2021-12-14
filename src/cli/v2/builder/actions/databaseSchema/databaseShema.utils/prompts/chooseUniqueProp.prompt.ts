@@ -16,14 +16,16 @@ export const chooseUniqueProp = async (
   if (uniqueProp) {
     const typeProps = tracker.getFromStorage(DatabaseStorageType.schemaProps);
 
-    const { chosenUniqueProperty } = await inquirer.prompt([
-      databaseSchemaQuestions.chooseUniqueProp(typeProps),
-    ]);
+    const { chosenUniqueProperty }: { chosenUniqueProperty: string } =
+      await inquirer.prompt([
+        databaseSchemaQuestions.chooseUniqueProp(typeProps),
+      ]);
 
-    if (chosenUniqueProperty)
+    if (chosenUniqueProperty && chosenUniqueProperty !== "--cancel") {
       tracker.addToStorage({
         key: DatabaseStorageType.uniqueProperty,
         value: chosenUniqueProperty,
       });
+    }
   }
 };

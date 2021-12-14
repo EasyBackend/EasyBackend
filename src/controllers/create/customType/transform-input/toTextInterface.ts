@@ -1,4 +1,4 @@
-import { ICustomTypeCreationParams } from "../../../types";
+import { ICustomTypeCreationParams } from "../../../../types";
 
 export const createTextInterface = ({
   typeProps,

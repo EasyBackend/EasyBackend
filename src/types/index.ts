@@ -5,4 +5,4 @@ export * from "./trackers";
 export * from "./trackerStorage";
 export * from "./customType";
 export * from "./returnValues";
-export * from "./databaseSchema";
+export * from "./dbSchemaProp";

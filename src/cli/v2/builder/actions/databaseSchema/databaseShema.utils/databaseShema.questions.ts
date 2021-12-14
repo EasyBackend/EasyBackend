@@ -15,7 +15,7 @@ export const databaseSchemaQuestions = {
       type: "list",
       name: "chosenUniqueProperty",
       message: "Choose a property to be unique",
-      choices: possibleUniqueProps,
+      choices: [...possibleUniqueProps, "--cancel"],
     };
   },
   chooseRequiredProps: (schemaProps: string[]) => {
@@ -24,7 +24,7 @@ export const databaseSchemaQuestions = {
       name: "requiredProps",
       message:
         "Please select required properties for this schema (can select none)",
-      choices: schemaProps,
+      choices: [...schemaProps, "--none"],
       loop: true,
     };
   },

@@ -2,7 +2,7 @@ import Logger from "../../../logger/logger";
 import { ISchemaCreationParams } from "../../../types";
 import { ValidationRes } from "../../../utils";
 import { validateSchemaBeforeCreation } from "../../input-validations";
-import { createTextDatabaseSchema } from "./databaseSchema.util";
+import { createTextDatabaseSchema } from "./transform-input/toTextDatabaseSchema";
 
 /**
  * @param { ISchemaCreationParams } IDatabaseSchemaCreationParams
@@ -35,6 +35,6 @@ const doCreateDatabaseSchema = async (
 ) => {
   Logger.info("Creating a new database schema");
 
-  // imhere
   const textDBSchema = await createTextDatabaseSchema(schemaCreationParams);
+  console.log(textDBSchema);
 };

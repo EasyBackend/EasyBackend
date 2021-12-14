@@ -25,9 +25,18 @@ export const shouldIncludeDBSchema = async (
       InterfaceStorageType.typeCreationProps
     );
 
+    const schemaName: string = tracker.getFromStorage(
+      InterfaceStorageType.typeName
+    );
+
     tracker.addToStorage({
       key: DatabaseStorageType.schemaProps,
       value: schemaProps,
+    });
+
+    tracker.addToStorage({
+      key: DatabaseStorageType.schemaName,
+      value: schemaName,
     });
 
     await chooseUniqueProp(tracker);

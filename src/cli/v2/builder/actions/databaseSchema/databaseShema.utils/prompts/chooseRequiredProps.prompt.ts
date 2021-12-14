@@ -11,12 +11,12 @@ export const chooseRequiredProps = async (
 ) => {
   const typeProps = tracker.getFromStorage(DatabaseStorageType.schemaProps);
 
-  const { requiredProps } = await inquirer.prompt([
+  const { requiredProps }: { requiredProps: string[] } = await inquirer.prompt([
     databaseSchemaQuestions.chooseRequiredProps(typeProps),
   ]);
 
   tracker.addToStorage({
     key: DatabaseStorageType.requiredProps,
-    value: requiredProps,
+    value: requiredProps.filter((prop) => prop !== "--none"),
   });
 };

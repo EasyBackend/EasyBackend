@@ -3,8 +3,8 @@ import Logger from "../../../../../../logger/logger";
 import {
   DatabaseStorageType,
   ICustomTypeCreationParams,
-  ISchemaCreationParams,
   InterfaceStorageType,
+  ISchemaCreationParams,
 } from "../../../../../../types";
 
 import { createCustomType } from "../../../../../../controllers";

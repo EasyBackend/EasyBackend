@@ -2,7 +2,7 @@ import Logger from "../../../logger/logger";
 import { ICustomTypeCreationParams } from "../../../types";
 import { validateCustomTypeBeforeCreation } from "../../input-validations";
 import { ValidationRes } from "../../../utils";
-import { createTextInterface } from "./customType.util";
+import { createTextInterface } from "./transform-input";
 
 /**
  * @param { ICustomTypeCreationParams } ICustomTypeCreationParams
