@@ -35,7 +35,7 @@
     "ncp": "^2.0.0",
     "pkg-install": "^1.0.0",
     "prettier": "^2.4.0",
-    "ts-node": "^10.3.0",
+    "ts-node": "^10.4.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
