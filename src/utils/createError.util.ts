@@ -1,3 +1,3 @@
 export const createError = (msg: string) => {
-  throw { customMessage: msg };
-};
+  throw new Error(msg)
+}

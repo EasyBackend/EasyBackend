@@ -1,3 +1,1 @@
-import { ValidationRes } from "../utils";
-
-export type promptForTypePropReturn = { abort: boolean; typeProp: string };
+export type promptForTypePropReturn = { abort: boolean; typeProp: string }

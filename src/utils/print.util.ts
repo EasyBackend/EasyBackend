@@ -1,10 +1,9 @@
-export const printAsTable = (data: any[]) => {
-  // TODO: Get rid of this "any" ^^^^
+export const printAsTable = (data: Record<string, any>[]) => {
+  // eslint-disable-next-line no-console
   console.table(
-    // TODO: get rid of this "any" vvvv
-    data.reduce((acc: any, { action, ...x }) => {
-      acc[action] = x;
-      return acc;
+    data.reduce((acc, { action, ...x }) => {
+      acc[action] = x
+      return acc
     }, {})
-  );
-};
+  )
+}

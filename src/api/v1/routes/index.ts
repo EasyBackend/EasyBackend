@@ -1,8 +1,8 @@
-import express from "express";
-import customTypeRouter from "./custom-type/custom-type-create";
+import express from 'express'
+import customTypeRouter from './custom-type/custom-type-create'
 
-const api = express.Router();
+const api = express.Router()
 
-api.use("/customType", customTypeRouter);
+api.use('/customType', customTypeRouter)
 
-export default api;
+export default api

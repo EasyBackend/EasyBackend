@@ -1,9 +1,9 @@
 export interface ICustomTypeProp {
-  key: string;
-  type: string;
+  key: string
+  type: string
 }
 
 export interface ICustomTypeCreationParams {
-  typeProps: string[];
-  typeName: string;
+  typeProps: string[]
+  typeName: string
 }

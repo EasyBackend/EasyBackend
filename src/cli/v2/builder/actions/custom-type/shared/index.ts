@@ -1,25 +1,21 @@
 #!/usr/bin/env node
-import { createCustomType } from "../../../../../../controllers/v1";
-import { createDatabaseSchema } from "../../../../../../controllers/v1/create/restapi/database-schema";
-import Logger from "../../../../../../logger/logger";
+import { createCustomType } from '../../../../../../controllers/v1'
+import { createDatabaseSchema } from '../../../../../../controllers/v1/create/restapi/database-schema'
+import Logger from '../../../../../../logger/logger'
 import {
   InterfaceStorageType,
   ICustomTypeCreationParams,
   DatabaseStorageType,
   ISchemaCreationParams,
-} from "../../../../../../types";
-import {
-  RestProjectTracker,
-  GqlProjectTracker,
-  getTracker,
-} from "../../../../../../utils";
-import { chooseRequiredProps } from "../../database-schema/shared/prompts";
+} from '../../../../../../types'
+import { RestProjectTracker, GqlProjectTracker, getTracker } from '../../../../../../utils'
+import { chooseRequiredProps } from '../../database-schema/shared/prompts'
 import {
   promptForTypeName,
   collectTypePropsFromUser,
   shouldIncludeDBSchema,
   confirmWithUserAndNavigate,
-} from "./prompts";
+} from './prompts'
 
 /*
 ? Eventually we want to be able to create a custom type (or anything else for that matter) with one singular function.
@@ -29,70 +25,56 @@ import {
 
 // This whole function's flow should be UI-related only -
 // this should definitely have nothing to do with creating the custom type itself.
-export const createCustomTypeFromCLI = async (
-  tracker?: RestProjectTracker | GqlProjectTracker
-) => {
-  if (!tracker) tracker = await getTracker();
+export const createCustomTypeFromCLI = async (tracker?: RestProjectTracker | GqlProjectTracker) => {
+  if (!tracker) tracker = await getTracker()
   if (!tracker) {
-    Logger.error(`No tracker found, aborting..`);
-    return;
+    Logger.error(`No tracker found, aborting..`)
+    return
   }
-  await promptForTypeName(tracker);
-  await collectTypePropsFromUser(tracker);
-  await shouldIncludeDBSchema(tracker);
+  await promptForTypeName(tracker)
+  await collectTypePropsFromUser(tracker)
+  await shouldIncludeDBSchema(tracker)
 
-  const includeDBSchema = tracker.getFromStorage(
-    InterfaceStorageType.includeDBSchema
-  );
+  const includeDBSchema = tracker.getFromStorage(InterfaceStorageType.includeDBSchema)
 
   if (includeDBSchema) {
-    await chooseRequiredProps(tracker);
+    await chooseRequiredProps(tracker)
   }
 
-  await confirmWithUserAndNavigate(tracker);
-};
+  await confirmWithUserAndNavigate(tracker)
+}
 
 // This is the function that extracts the params from Tracker and sends it to createCustomType()
-export const handleCustomTypeCreation = async (
-  tracker: RestProjectTracker | GqlProjectTracker
-) => {
-  const typeProps = tracker.getFromStorage(
-    InterfaceStorageType.typeCreationProps
-  );
+export const handleCustomTypeCreation = async (tracker: RestProjectTracker | GqlProjectTracker) => {
+  const typeProps = tracker.getFromStorage(InterfaceStorageType.typeCreationProps)
 
-  const typeName = tracker.getFromStorage(InterfaceStorageType.typeName);
+  const typeName = tracker.getFromStorage(InterfaceStorageType.typeName)
 
   const customTypeParams: ICustomTypeCreationParams = {
     typeProps,
     typeName,
-  };
+  }
 
-  await createCustomType(customTypeParams);
+  await createCustomType(customTypeParams)
 
-  const includeDBSchema = tracker.getFromStorage(
-    InterfaceStorageType.includeDBSchema
-  );
+  const includeDBSchema = tracker.getFromStorage(InterfaceStorageType.includeDBSchema)
 
   if (includeDBSchema) {
-    const schemaProps = tracker.getFromStorage(DatabaseStorageType.schemaProps);
+    const schemaProps = tracker.getFromStorage(DatabaseStorageType.schemaProps)
 
-    const schemaName = tracker.getFromStorage(DatabaseStorageType.schemaName);
+    const schemaName = tracker.getFromStorage(DatabaseStorageType.schemaName)
 
-    const uniqueProperty = tracker.getFromStorage(
-      DatabaseStorageType.uniqueProperty
-    );
+    const uniqueProperty = tracker.getFromStorage(DatabaseStorageType.uniqueProperty)
 
-    const requiredProps = tracker.getFromStorage(
-      DatabaseStorageType.requiredProps
-    );
+    const requiredProps = tracker.getFromStorage(DatabaseStorageType.requiredProps)
 
     const dbSchemaParams: ISchemaCreationParams = {
       schemaProps,
       schemaName,
       uniqueProperty,
       requiredProps,
-    };
+    }
 
-    await createDatabaseSchema(dbSchemaParams);
+    await createDatabaseSchema(dbSchemaParams)
   }
-};
+}

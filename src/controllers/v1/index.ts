@@ -1,1 +1,1 @@
-export { createCustomType } from "./create/restapi/custom-type";
+export { createCustomType } from './create/restapi/custom-type'

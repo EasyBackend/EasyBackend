@@ -1,1 +1,1 @@
-export * from "./capitalizeFirstLetter";
+export * from './capitalizeFirstLetter'

@@ -1,1 +1,1 @@
-export * from "./toSchemaProps";
+export * from './toSchemaProps'

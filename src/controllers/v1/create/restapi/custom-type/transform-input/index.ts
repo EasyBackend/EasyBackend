@@ -1,1 +1,1 @@
-export * from "./toTextInterface";
+export * from './toTextInterface'

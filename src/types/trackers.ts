@@ -1,45 +1,45 @@
-import { IMainOptions } from ".";
+import { IMainOptions } from '.'
 
-export type Types = "N/A" | string[];
-export type Language = "typescript" | "javascript";
-export type Implementaion = "gql" | "rest";
+export type Types = 'N/A' | string[]
+export type Language = 'typescript' | 'javascript'
+export type Implementaion = 'gql' | 'rest'
 
 interface IAllowedTypes {
-  arrayTypes: string[];
-  primitiveTypes: string[];
-  objectTypes: string[];
-  customTypes: string[];
+  arrayTypes: string[]
+  primitiveTypes: string[]
+  objectTypes: string[]
+  customTypes: string[]
 }
 interface IBaseConfig {
-  opts: Omit<IMainOptions, "databaseUri">;
-  plugins: string[];
-  allowedTypes: IAllowedTypes;
+  opts: Omit<IMainOptions, 'databaseUri'>
+  plugins: string[]
+  allowedTypes: IAllowedTypes
 }
 
 export interface IGqlConfig extends IBaseConfig {
-  resolvers: string[];
-  typeDefs: string[];
+  resolvers: string[]
+  typeDefs: string[]
 }
 export interface IRestConfig extends IBaseConfig {
-  routes: string[];
-  middlewares: string[];
+  routes: string[]
+  middlewares: string[]
 }
 
 export interface IRestTracker {
-  config: IRestConfig;
+  config: IRestConfig
 }
 
 export interface IDB {
-  database: string;
-  schemas: string[];
+  database: string
+  schemas: string[]
 }
 
 export interface IGQLTracker {
-  config: IGqlConfig;
+  config: IGqlConfig
 }
 
 export interface ITrackerHistory {
-  history: Function;
-  get: Function;
-  goBack: Function;
+  history: Function
+  get: Function
+  goBack: Function
 }

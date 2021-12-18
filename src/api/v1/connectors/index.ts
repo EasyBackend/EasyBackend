@@ -1,1 +1,1 @@
-export { createCustomTypeFromAPI } from "./create/customType/customType.connector";
+export { createCustomTypeFromAPI } from './create/customType/customType.connector'

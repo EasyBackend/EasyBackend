@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router } from 'express'
 
-import customTypeCreateR from "./custom-type-create";
+import customTypeCreateR from './custom-type-create'
 
-const customTypeRouter = Router();
+const customTypeRouter = Router()
 
-customTypeRouter.use("/create", customTypeCreateR);
+customTypeRouter.use('/create', customTypeCreateR)
 
-export default customTypeRouter;
+export default customTypeRouter

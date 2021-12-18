@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "./src/build",
+    "rootDir": ".",
+    "pretty": true,
+    "moduleResolution": "node",
+    "target": "es2018",
+    "lib": ["ES2018", "ES2019", "DOM", "DOM.Iterable"],
+    "module": "commonjs",
+    "allowJs": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "noImplicitAny": false, // Needed to compile tap and ansi-escapes
+    "composite": true
+  }
+}

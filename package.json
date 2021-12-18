@@ -3,18 +3,65 @@
   "version": "1.4.0",
   "description": "Why repeat the same actions every time you build a node.js server? Let Easy Backend do that for you.",
   "main": "build/index.js",
+  "files": [
+    "help/cli-commands",
+    "./src/build",
+    "./src/bin",
+    "README.md"
+  ],
+  "directories": {
+    "lib": "src",
+    "test": "test",
+    "doc": "help/cli-commands"
+  },
+  "bin": {
+    "eb-init-cli": "./src/bin/eb-init-cli",
+    "eb-create-server": "./src/bin/eb-create-server",
+    "eb-launch-server": "./src/bin/eb-launch-server"
+  },
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "start": "node ./src/bin/eb-create-server",
     "eb:server": "ts-node ./src/api/index.ts",
     "eb": "node ./src/bin/eb-init-cli",
     "delexample": "rimraf ./example",
-    "test": "",
     "build": "rimraf ./src/build && tsc && ncp ./src/templates ./src/build",
-    "lint": "eslint . --ext .js,.ts --fix",
     "commit": "npx git-cz",
     "test:coverage": "jest --coverage",
-    "release": "standard-version"
+    "release": "standard-version",
+    "clean": "npx rimraf node_modules src/build .eslintcache example",
+    "format": "prettier --write ./src/**/*.{js,ts,json,yaml,yml,md}",
+    "format:changes": "./scripts/format/prettier-changes.sh",
+    "lint": "eslint . --ext .js,.ts --fix",
+    "lint:js": "eslint --color --cache '**/*.{js,ts}'",
+    "lint:formatting": "prettier --check '**/*.{js,ts,json,yaml,yml,md}'",
+    "watch": "npm run build -- --watch",
+    "test": "npm run test:cli && npm run test:test && npm run test:jest",
+    "test:jest": "jest --runInBand \"/test/[^/]+\\.spec\\.ts\"",
+    "test:jest-unit": "jest --runInBand \"/test/jest/unit/((.+)/)*[^/]+\\.spec\\.ts\"",
+    "test:test": "tap test/*.test.* -Rspec --timeout=300 --node-arg=-r --node-arg=ts-node/register"
   },
+  "pkg": {
+    "scripts": [
+      "src/build/**/*.js",
+      "src/bin"
+    ],
+    "assets": [
+      "src/build",
+      "help",
+      "assets"
+    ]
+  },
+  "keywords": [
+    "backend",
+    "server",
+    "easybackend",
+    "server-builder",
+    "automation",
+    "server-automation"
+  ],
   "repository": {
     "type": "git",
     "url": "www.github.com/KorenEzri/EasyBackend.git"
@@ -24,6 +71,7 @@
   "license": "MIT",
   "dependencies": {
     "arg": "^5.0.1",
+    "body-parser": "^1.19.1",
     "chalk": "^4.1.2",
     "esm": "^3.2.25",
     "execa": "^5.1.1",
@@ -57,12 +105,6 @@
     "rimraf": "^3.0.2",
     "standard-version": "^9.3.1",
     "typescript": "^4.4.2"
-  },
-  "bin": {
-    "@korenezri/easy-backend": "./src/bin/eb-create-server",
-    "eb-init-cli": "./src/bin/eb-init-cli",
-    "eb-create-server": "./src/bin/eb-create-server",
-    "eb-launch-server": "./src/bin/eb-launch-server"
   },
   "config": {
     "commitizen": {

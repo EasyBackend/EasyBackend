@@ -1,2 +1,2 @@
-export * from "./chooseUniqueProp.prompt";
-export * from "./chooseRequiredProps.prompt";
+export * from './chooseUniqueProp.prompt'
+export * from './chooseRequiredProps.prompt'

@@ -1,11 +1,10 @@
-import { Router } from "express";
+import { Router } from 'express'
 
-import { withTryCatch } from "../../../../utils";
+import { withTryCatch } from '../../../../utils'
+import { createCustomTypeFromAPI } from '../../connectors'
 
-const customTypeCreateR = Router();
+const customTypeCreateR = Router()
 
-// customTypeCreateR.get("/", (req, res) =>
-//   withTryCatch(req, res, createCustomTypeFromAPI)
-// );
+customTypeCreateR.get('/', (req, res) => withTryCatch(req, res, createCustomTypeFromAPI))
 
-export default customTypeCreateR;
+export default customTypeCreateR
