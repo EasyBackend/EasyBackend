@@ -28,7 +28,10 @@
     "eb": "node ./src/bin/eb-init-cli",
     "delexample": "rimraf ./example",
     "build": "rimraf ./src/build && tsc && ncp ./src/templates ./src/build",
-    "commit": "npx git-cz",
+    "commit:publish:minor": "node ./scripts/publish/format-lint-test && node ./scripts/publish/git-add && node ./scripts/publish/commit && node ./scripts/publish/publish-minor",
+    "format:lint:test": "node ./scripts/publish/format-lint-test",
+    "commit": "node ./scripts/publish/git-add && node ./scripts/publish/commit.ts",
+    "publish:minor": "node ./scripts/publish/publish-minor",
     "test:coverage": "jest --coverage",
     "release": "standard-version",
     "clean": "npx rimraf node_modules src/build .eslintcache example",
@@ -38,7 +41,7 @@
     "lint:js": "eslint --color --cache '**/*.{js,ts}'",
     "lint:formatting": "prettier --check '**/*.{js,ts,json,yaml,yml,md}'",
     "watch": "npm run build -- --watch",
-    "test": "npm run test:cli && npm run test:test && npm run test:jest",
+    "test": "echo 'test'",
     "test:jest": "jest --runInBand \"/test/[^/]+\\.spec\\.ts\"",
     "test:jest-unit": "jest --runInBand \"/test/jest/unit/((.+)/)*[^/]+\\.spec\\.ts\"",
     "test:test": "tap test/*.test.* -Rspec --timeout=300 --node-arg=-r --node-arg=ts-node/register"
@@ -73,6 +76,7 @@
     "arg": "^5.0.1",
     "body-parser": "^1.19.1",
     "chalk": "^4.1.2",
+    "eb-lib": "^1.11.0",
     "esm": "^3.2.25",
     "execa": "^5.1.1",
     "express": "^4.17.1",
@@ -87,8 +91,6 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^13.1.0",
-    "@commitlint/config-conventional": "^13.1.0",
     "@types/express": "^4.17.13",
     "@types/inquirer": "^7.3.3",
     "@types/listr": "^0.14.4",
@@ -96,8 +98,7 @@
     "@types/ncp": "^2.0.5",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^7.32.0",
+    "eslint": "7.9.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
@@ -105,10 +106,5 @@
     "rimraf": "^3.0.2",
     "standard-version": "^9.3.1",
     "typescript": "^4.4.2"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

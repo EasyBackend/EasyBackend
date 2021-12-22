@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import * as ncp from 'ncp'
+import ncp from 'ncp'
 import { promisify } from 'util'
 import { IMainOptions } from '../../../../types'
 

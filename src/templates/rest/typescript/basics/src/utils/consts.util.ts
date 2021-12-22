@@ -1,1 +1,1 @@
-export const example = 2
+export const example = 2;

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
+import { restAPICreators } from 'eb-lib/src'
 import { createCustomType } from '../../../../../../controllers/v1'
-import { createDatabaseSchema } from '../../../../../../controllers/v1/create/restapi/database-schema'
 import Logger from '../../../../../../logger/logger'
 import {
   InterfaceStorageType,
@@ -74,7 +74,7 @@ export const handleCustomTypeCreation = async (tracker: RestProjectTracker | Gql
       uniqueProperty,
       requiredProps,
     }
-
-    await createDatabaseSchema(dbSchemaParams)
+    console.log('HERE')
+    await restAPICreators.validateAndCreateDatabaseSchema(dbSchemaParams)
   }
 }
