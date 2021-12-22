@@ -11,6 +11,7 @@
     "./test/**/*",
     "./src/build/**/*",
     "./src/templates/**/*",
+    "./scripts/**/*",
     "node_modules",
     "example",
     "./src/templates/**/*",

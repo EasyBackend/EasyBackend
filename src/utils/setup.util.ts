@@ -1,5 +1,5 @@
-import { IMainOptions } from '../types'
-import { writeToEnv } from '.'
+import { IMainOptions } from "../types";
+import { writeToEnv } from ".";
 
 // const copyDatabaseFiles = async (options: IMainOptions) => {
 //   try {
@@ -25,7 +25,7 @@ import { writeToEnv } from '.'
 // }
 
 export const databaseSetup = async (options: Partial<IMainOptions>) => {
-  await writeToEnv(options)
+  await writeToEnv(options);
   // * for now, because we only suppport mongoDB,
   // * databseSetup() only writes the URI if there is one, to the .env file.
   /*
@@ -35,4 +35,4 @@ export const databaseSetup = async (options: Partial<IMainOptions>) => {
       : await install(jsMongo, { cwd: options.targetDirectory });
     return await writeToEnv(options);
   */
-}
+};
